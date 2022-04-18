@@ -1,0 +1,94 @@
+
+Comenzaremos con la intro al lenguaje C++.Veremos los siguientes fundamentos:
+
+1- Estructura de un programa en C++
+2- Conceptos de entrada y salida (I/O)
+3- Tipado de Datos y Variables
+4- Vectores multidimensionales y monodimensionales
+5- Sentencias Condicionales 
+6- Bucles
+7- Tuplas
+
+					VIDEO 66 CONCEPTOS ESENCIALES
+
+Algoritmo: un algoritmo no es más que un método para resolver un problema.Normalmente se describe como una secuencia de pasos
+
+Lenguaje de programación: es un "idioma" usado para describir/mandar instrucciones a un ordenador.Esta compuesto de datos e instrucciones.
+Los lenguajes de programación tienen una sintaxis y semántica muy estrictas
+
+Programa de ordenador: no es más que un algoritmo(mejor una secuencia de instrucciones) escrito en un lenguaje de programación que ejecuta una cierta tarea:
+calcular una raiz cuadrada
+calcular el nº de veces que aparece una palabra en un libro
+reproducir un archivo de musica
+calcular el camino más corto entre dos ciudades
+
+NOTA: los ordenadores sólo entienden instrucciones de muy bajo nivel(lenguaje máquina) mientras que el software está usualmente construido usando lenguajes de alto nivel.
+Un lenguaje de alto nivel tiene:
+1- Mayor productividad
+2- Mayor legibilidad
+4- Compilación más simple(y más rápida)
+IMPORTANTE: el compilador de cada lenguaje traduce un lenguaje de alto nivel a lenguaje máquina automáticamente(el lenguaje máquina son 0s y 1s,es decir a binario)
+
+					INSTALACIONES NECESARIAS
+
+El autor recomienda instalar Visual Studio y marcar Desktop Development with C++.
+Yo trataré de usar VSC
+NOTA: siempre debe haber un archivo 'main.cpp' que arranque la aplicación.
+TIP:también puede ser con extensión .cc
+
+					USAR C++ EN LINUX CON VSC
+
+Fuente: https://www.youtube.com/watch?v=tB8SxkuwGVo&ab_channel=SevivonStudio
+Para compilar C++ necesito el interprete para C y C++.Algunas versiones de Linux ya lo traen asi que lo mejor es comprobarlo:
+>gcc --version <- version para C
+>g++ --version <- version para C++ tengo la 9.4.0
+
+* Instalar el compilador para C++ me va a instalar el de C(por eso me coinciden las versiones)
+>sudo apt install g++ <- por si no lo tuviera
+Puedo volver a comprobarlo con:
+>which gcc g++
+>dpkg --list | grep compiler <- para ver todos los compiladores que tengo
+
+TIP: para descomprimir e instalar un paquete .deb en LINUX:
+>sudo dpkg -i <archivo.deb> <- desempaqueta e instala gracias al -i
+
+IMPORTANTE: para trabajar en C/C++ en VSC necesitaré la extensión de Microsoft y otra 
+
+					ESTRUCTURA DE UN PROGRAMA C++
+
+Para que el programa funcione y compile voy a necesitar varias cosas:
+1- voy a necesitar la función main.En C++ retorna un int:
+int main(){ return 0; }
+
+2- voy a necesitar alguna directiva y namespace.En cuanto use un namespace ya no tengo que ponerlo antes(std::cout pasará a cout) 
+#include <iostream>
+using namespace std;
+
+3- Para compilar puedo usar g++ -o main main.cpp donde el primer argumento es el nombre del archivo final(que será un ejecutable) y el segundo el file a compilar.
+Despues ejecuto el ejecutable con bash,si estoy en Linux:
+>./main <- veré el cout de momento
+
+				VIDEO 69 ENTRADA Y SALIDA POR CONSOLA
+
+Primero que nada puedo usar un namespace para evitar tener que escribirlo.Para dar un salto de linea tendré que usar std::endl y para imprimir std::cout.
+Para tomar la entrada por consola usaré std::cin.Normalmente guardaré la entrada en una variable:
+Fijate que cout llevará << y cin >> en la otra dirección.
+
+En el main.cc | main.cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+  /* fijate que debo mandar los endl(endlines) */
+  std::cout << "Bienvenido al curso de C++" << std::endl;
+  std::cout << "Estamos empezando con los namespaces" << std::endl;
+  string variable;
+  cout << "Inserta un string..." << endl;
+  std::cin >> variable;
+  cout << "has escrito:" << variable << endl;
+  return 0;
+}
+
+					VIDEO 70 TIPOS DE DATOS EN C++
+
+
