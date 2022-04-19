@@ -92,3 +92,148 @@ int main(){
 					VIDEO 70 TIPOS DE DATOS EN C++
 
 
+Dentro de C++ hay varios tipos de datos principales.
+
+1- int: se usa para guardar numeros enteros,es decir,sin decimales( int nombre = 3;)
+NOTA: int hoja = 9.3; esto dará un error,pues es un double
+TIP: puedo declarar una variable dandole el tipo y nombre y asignarle despues un valor:
+int nota;
+nota = 5;
+
+2- double: permite guardar valores númericos con decimales
+double exacto = 3.6;
+double ultimo = -89.2
+
+3- char: char sólo me sirve para guardar un carácter alfanúmerico,da igual que sea una letra o un número
+char curso = 'a';
+char agua = '2'; <- ojo que no es un número,es un carácter alfanumérico(diría que es un string)
+
+4- string: el tipo string me permite almacenar palabras y/o textos:
+string revista = "Navidad";
+string papel = "Colegio";
+Los strings se guardan con comillas dobles siempre ??
+
+5- bool: variable lógica que permite almacenar sólo true ó false.En C++ si pongo 1 o 0 es lo mismo.Lo convertirá a true | false.
+
+De momento me valdrá con estos primitivos
+
+				VIDEO 71 COMENTARIOS 
+
+En C++ puedo usar un comentario monolinea con // y uno multilinea con /* */.Es igual que en Java.
+
+				VIDEO 72 STRING Y GET LINE
+
+Si tuviera el siguiente código:
+string entrada;
+cin >> entrada;
+cout << entrada << endl;
+Si escribo más de una palabra como "playa de Salamanca" veré sólo la palabra "playa" y el salto de linea.¿Como puedo hacer para coger strings de más de un elemento?.
+IMPORTANTE: necesitaré una nueva librería llamada string,aparte de la iostream que ya estoy incluyendo:
+#include <iostream>;
+#include <string>;
+using namespace std;
+
+int main(){
+  string entrada;
+  getline(cin,entrada); <- con getline cogeré toda la linea,hasta que haya un salto.Fijate que me pide dos argumentos,el método cin y la variable donde acumular el valor rescatado	
+  cout << entrada << endl;
+
+			  VIDEO 73 OPERADORES Y SENTENCIAS	
+
+Veamos los operadores de suma,resta,multiplicación,división y módulo.Realmente no tienen ciencia alguna,más que respetar la sintaxis de C++:
+
+
+int main(){
+  int a;
+  int b;
+  cout << "Inserte dos enteros a sumar:" << endl;
+  cin >> a >> b;
+  cout << "El resultado es: " << a + b << endl;
+
+  double x;
+  double y;
+  cout << "Inserte dos decimales a multiplicar:" << endl;
+  cin >> x >> y;
+  cout << "La multiplicación es: " << x * y << endl;
+}
+TIP: en vim borro hasta el final del file con dG
+
+
+			SECCION 17 CONDICIONALES Y BUCLES
+
+
+La estructura condicional if | if/else | if/elseif/else permite cambiar el flujo del programa en base a condiciones.Es algo básico en programación.
+TIP: fijate que he usado la forma corta de los if ya que es sólo una instrucción.Necesitaré las llaves sin son más de una:
+
+int main(){
+  float nota;
+  cout << "Inserte una nota: " << endl;
+  cin >> nota; 
+  if(nota >= 5) cout << "El estudiante ha aprobado" << endl;
+  else cout << "El estudiante ha suspendido" << endl;
+}
+
+			VIDEO 75 MÚLTIPLES IFs
+
+Muchas veces necesitaré más de un if.En ese caso necesitaré de la keyword 'else if'.Recuerda que las condiciones se leen secuencialmente.			
+
+  int edad;
+  cout << "Inserte la edad de la persona:" << endl;
+  cin >> edad;
+  if (edad >= 1 && edad <= 3)
+    cout << "la persona es un bebé" << endl;
+  else if (edad > 3 && edad < 18)
+    cout << "la persona es joven" << endl;
+  else
+    cout << "la persona es adulta" << endl;
+}
+
+			VIDEO 76 PRACTICA COMPARISON OF WORDS
+
+int main()
+{
+  cout << "Inserta la palabra 1" << endl;
+  string word1;
+  cin >> word1;
+  cout << "Inserta la palabra 2" << endl;
+  string word2;
+  cin >> word2;
+  if (word1 < word2)
+    cout << word2 << " " << word1 << endl;
+  else if (word1 > word2)
+    cout << word1 << " " << word2 << endl;
+  else
+    cout << word1 << " " << word2 << endl;
+  return 0;
+}		
+
+			VIDEO 77 RELOJ DIGITAL
+
+Fijate que la clave estuvo en el módulo:
+
+int main()
+{
+  cout << "bienvenido al programa AddOneSecond.Por favor inserte las horas:" << endl;
+  int h, m, s;
+  cin >> h;
+  cout << "Por favor inserte los minutos:" << endl;
+  cin >> m;
+  cout << "Por favor inserte los segundos:" << endl;
+  cin >> s;
+  s = s++;
+  /* fijate que la clave es el módulo asinto */
+  if (s >= 60) { s %= 60; m += 1; }
+  if (m >= 60) { m %= 60; h += 1; }
+  if(h >=24){ h %= 24; }
+  /* pasar a formato digital */
+  cout << "La hora insertada más un segundo es:" << endl;
+  if(h < 10) cout << "0";
+  cout << h << ":";
+  if(m < 10) cout << "0";
+  cout << m << ":";
+  if(s < 10) cout << "0";
+  cout << s << endl;
+  return 0;
+}
+
+
