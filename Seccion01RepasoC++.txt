@@ -236,4 +236,21 @@ int main()
   return 0;
 }
 
+			 VIDEO 78 BUCLE FOR 
 
+Los bucles son simples repeticiones donde ejecutar una misma instrucción sobre cada repetición.La sintaxis es exactamente igual que en Java:
+for(int i=0;i < 10; i++){
+  cout << "iteracion" << i << endl; 
+
+			  VIDEO 79 ESTRUCTURA WHILE
+
+El segundo tipo de estructura repetitiva dentro de C++ es el bucle while.Se usa cuando no se sabe el nº de repeticiones(bucle indeterminado)			  
+while(condicion) { instrucción repetida }
+
+int numeroveces;
+cin >> numeroveces;
+
+while(numeroveces >= 0) {
+ cout << "xx" << endl;
+ --numeroveces;
+ }"
