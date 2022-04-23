@@ -254,3 +254,102 @@ while(numeroveces >= 0) {
  cout << "xx" << endl;
  --numeroveces;
  }"
+
+			VIDEO 80 EJERCICIO SUM OF SQUARES CON BUCLES
+
+Escriba un programa que lea un nº natural n, e imprima el resultado de la siguiente suma:
+1 a la dos + 2 a la dos + (n-1) a la dos + n a la dos:
+
+int main()
+{
+  cout << "Bienvenido a Sum of Squares.Por favor,introduzca un entero" << endl;
+  int numb;
+  int total=0;
+  cin >> numb;
+
+  for (int i = 1; i <= numb; ++i)
+  {
+    total += i * i;
+  }
+  cout << "el sumatorio es: " << total << endl;
+  return 0;
+}
+Sencillo.
+NOTA:las librerias como #include <iostream> añaden funcionalidad.En este caso me dan acceso a los objetos cout y cin.Otra forma de hacer el salto de linea es usar \n en vez de << endl;
+TIP: >> es el extraction operator y se usa con cin,mientras que << es el insertion operator y se usa con cout
+Puedo declarar una constante en C++ con la keyword const.
+
+			VIDEO 81 EJERCICIO MATH OPERATIONS CON BUCLES
+
+Fijate en el uso de cout.setf(ios::fixed) para habilitar decimales y en cout.precision(2) para fijar su nº máximo:
+
+int main()
+{
+  // impongo la condición de usar decimales y no enteros asi:
+  cout.setf(ios::fixed);
+  // impongo la condición de usar estrictamente dos decimales asi:
+  cout.precision(2);
+
+  cout << "Bienvenido a Math operations: " << endl;
+  string operacion = "";
+  double numA, numB;
+
+  while (operacion != "parar")
+  {
+    cout << "Indique tipo de operacion(suma|resta|cambio|parar):\n";
+
+    cin >> operacion;
+    if (operacion == "suma")
+    {
+      cout << "Indique primer digito a sumar\n";
+      cin >> numA;
+      cout << "Indique segundo digito a sumar\n";
+      cin >> numB;
+      cout << "suma: " << numA + numB;
+    }
+    else if (operacion == "resta")
+    {
+      cout << "Indique primer digito a restar\n";
+      cin >> numA;
+      cout << "Indique segundo digito a restar\n";
+      cin >> numB;
+      cout << "resta: " << numA - numB;
+    }
+
+    else if (operacion == "cambio")
+    {
+      cout << "Inserte numero a cambiar valor absoluto\n";
+      /* fijate que multiplicar por -1 también me vale para la inversa aditiva */
+      cin >> numA;
+      if(numA > 0) cout << 0 - numA;
+      if(numA < 0) cout << 0 + (-numA);
+    }
+    cout << endl;
+
+  }
+  return 0;
+}
+
+Fijate en su solución:
+int main() {
+  cout.setf(ios:fixed);
+  cout.precision(2);
+  
+  string word;
+  double a, b;
+  while(cin >> word and word != "parar"){ <- ya de paso inserta el cin muy inteligente
+    cin >> a;
+    if(word == "cambio") cout << a * -1; <- con -1 hago el -abs
+    else{
+      cin >> b; <- si no es cambio pido el otro arg
+      if(word == "suma") cout << a + b;
+      else if(word == "resta") cout << a - b;
+      }
+      cout << endl;
+
+Fijate que he repetido mucho código,podria haberlo echo mucho más simple.
+
+			SECCION 18 FUNCIONES Y RECURSIVIDAD
+
+			
+
