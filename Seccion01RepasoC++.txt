@@ -351,5 +351,220 @@ Fijate que he repetido mucho código,podria haberlo echo mucho más simple.
 
 			SECCION 18 FUNCIONES Y RECURSIVIDAD
 
-			
+En esta sección veré como crear funciones y procedimientos en C++,además de algoritmos recursivos.Ya veré como obtener la recursividad mediante funciones recursivas.
+
+La principal diferencia entre una funcion y un procedimiento es que una funcion retorna un valor y un procedimiento NO.
+Un procedimiento no es más que hacer una serie de cambios o instrucciones que no retornan ningun valor(impresiones a consola,modificaciones sin retorno,etc).Se declara con el comando void.La sintaxis es: void <name> (parametros){ instrucciones }
+
+NOTA: modularizar un programa usando funciones y/archivos es algo básico.La legiblidad y simplicidad mejora mucho al refactorizar código en más funciones que la función principal main.
+
+void bienvenida(){
+    cout << "Bienvenido al programa" << endl;
+    cout << "Preparese para comenzar" << endl;
+};
+
+void edad(){
+  int a;
+  cout << "Ingrese su edad: \n";
+  cin >> a;
+  cout << "Su edad es: " << a << endl;
+}
+
+int main() {
+  bienvenida();
+  edad();
+  return 0;
+}
+
+Por otro lado,si es una funcion no será void sino del tipo que se retorne:
+
+float getMax(float a, float b)
+{
+  if (a > b)
+    return a;
+  else if (a == b)
+    return a;
+  else
+    return b;
+}
+De nuevo hay que llamarla con los valores correctos:
+int main()
+{
+  cout << "Inserte dos numeros: \n";
+  float a, b;
+  cin >> a >> b;
+  cout << "El mayor es: " << getMax(a, b) << endl;
+}
+TIP: si uso un procedimento que no retorna nada no puedo hacerle cout.
+cout << edad() <- no tiene sentido, edad ya llama a cout
+Sin embargo,si tiene sentido esto
+cout << getMax(3,4) <- pues imprimirá el retorno de la función.
+Es decir hacer el cout de un procedimiento no tiene sentido pues no retorna nada.
+
+		VIDEO 83 FUNCIONES POR REFERENCIA(&) - EJERCICIO UNO
+
+El simbolo que representa paso por referencia en C++ es el ampersand(&).Cada vez que pase una variable o argumento por referencia,el espacio en memoria al que apunta esa variable se lo pasaré a la siguiente variable.
+De una manera más simple,si hago:
+int prueba(int& a, int& b){
+  a = 5;
+Podré cambiar a,ya que la he pasado por referencia.
+
+void swap2(int& a, int& b)
+{
+  int temp = a;
+  a = b;
+  b = temp;
+}
+
+int main(){
+  cout << "Ingrese dos numeros: \n";
+  int a, b;
+  cin >> a >> b;
+  cout << "Antes de intercambiar: " << a << " " << b << endl;
+  swap2(a, b);
+  cout << "Despues de intercambiar: " << a << " " << b << endl;
+  return 0;
+}
+NOTA: std es la libreria standard de C++.Parece que traerla siempre es algo básico en un programa.
+
+		VIDEO 84 EJERCICIO TIME DESCOMPOSITION CON PASO POR REFERENCIA
+
+Escribe un procedimiento que dada una catidad de segundo compute cuantas horas,minutos y segundos representa:
+void decompose(int seg, int& h,int& m, int& s){
+ s = seg % 60;
+ m = (seg/60) % 60;
+ h = (seg/3600);
+
+Hay más formas de hacerlo.
+
+		VIDEO 85 FACTORIAL ITERATIVO
+
+Escribir una funcion que calcule el factorial usando iteraciones.
+
+long factorialIterativo(long n)
+{
+  long factorial = 1;
+  for (int i = 1; i <= n; ++i)
+  {
+    factorial *= i;
+  }
+  return factorial;
+}
+
+		VIDEO 86 FACTORIAL RECURSIVO
+
+Mismo ejercicio pero con recursividad.Fijate que la recursividad es simplemente una función que se llama a si misma.Recuerda que hay que pararla.
+
+int calcularFactorial(int n) {
+  if(n == 0){ return 1; }
+  else{ return n * calcularFactorial(n-1); }
+  }
+Observo que la función se llama a si misma === recursividad  
+
+Fijate como ha imprimido él el programa
+int main(){
+  int a;
+  while(cin >> a){
+    cout << factorial(a) << endl; <- muy bueno
+
+		VIDEO 87 DISTANCIA AL ORIGEN
+
+TIP: recuerda la diferencia entre funcion iterativa y función recursiva.Y la diferencia entre el inverso aditivo y el inverso multiplicativo (5 y -5 vs 5 y 1/5).
+Fijate que calcularé la distancia al punto 0,0:
+
+//origen(x,y) = (0,0)
+double dist_or(double x, double y){
+  // calcular la raiz cuadrada de x al cuadrado más y al cuadrado
+  // necesitaré un vector director,en este caso siempre es al origen
+  return sqrt((x*x) + (y*y));
+}
+
+int main() {
+  cout << "Inserte dos numeros reales para calcular la distancia al origen: " << endl;
+  double a, b;
+  while(cin >> a >> b){
+    cout << "La distancia es: " << dist_or(a,b) << endl;
+  }
+  return 0;
+}
+
+		VIDEO 88 FATTEN NUMBERS -EJERCICIO RECURSION
+
+Este ejercicio de engrose de numeros simplemente recorre un numero n de x posiciones y compara la posicion actual y la siguiente devolviendo la mayor.Por ejemplo 301034047 dará 333334447
+Como cualquier funcion recursiva tendré un paso base.En este caso es si n es menor que 10
+Fijate que la clave estuvo en los modulos de 10 y entrar hasta el final del numero:
+
+int maximo(int a, int b){
+  return a > b ? a : b;
+}
+int fatten(int x)
+{
+  /* paso base */
+  if (x < 10) return x;
+  else {
+    /* paso inductivo */
+    int n = x % 10;
+    int fn = fatten(x/10) % 10;
+    int valor = maximo(n, fn);
+    return 10 * fatten(x/10) + valor;
+  }
+  
+}
+
+int main()
+{
+  int x;
+  while(cin >> x)
+    cout << fatten(x) << endl;
+}
+Como actua: tengo 902,como no es menor entra al else,en n meto las unidades(x%10),o sea 2.En fn meto a( 902/10
+
+			SECCION 19 VECTORES MULTIDIMENSIONALES
+
+Un vector no es más que una estructura de dato que engrupa variables del mismo tipo.Asi pues,podría decir que es una colección de variables.
+La declaración de un vector en C++ es con la keyword vector<T> nombreArbitrario(n) donde n es el nº de elementos del vector,es decir que hay que darle una capacidad inicial.
+>vector <int> numeros(6);
+Recuerda que en programación se empieza a contar desde 0,asi pues un vector tendrá los indices desde 0 hasta n - 1 donde n fue el tamaño inicial.
+IMPORTANTE: para trabajar con vectores en C++ tendré que incluir la libreria vector,pues no vienen en el core
+
+TIP: en vectores se trabaja mucho con bucles.Es muy común recorrerlos.
+
+int main() {
+  vector <float> notas(5); 
+  for(int i = 0; i < 5; ++i) {
+    cout << "Escriba las notas de los 5 alumnos:\n";
+    cin >> notas[i];
+  }
+  for(int i = 0; i < 5; ++i) {
+    cout << "Las notas insertadas son: " << notas[i] << endl;
+  }
+}
+#include <vector>
+
+			VIDEO 91 VECTORES - VALOR MINIMO
+
+Calcular el valor minimo de un vector:
+
+int main() {
+  cout << "Inserte el numero de posiciones del vector: " << endl;
+  int n;
+  cin >> n;
+  vector<int> numeros(n);
+
+  for(int i = 0; i < n; ++i){
+    cout << "Inserte la posicion " << i << endl; 
+    cin >> numeros[i];
+  }
+
+  int min = numeros[0];
+
+  for(int j = 1; j < n; ++j){
+    if(numeros[j] < min) {
+      min = numeros[j];
+    }
+  }
+  cout << "el minimo es: " << min << endl;
+
+}		
+
 
