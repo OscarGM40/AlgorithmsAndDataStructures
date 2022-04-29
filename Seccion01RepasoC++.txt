@@ -1,3 +1,4 @@
+				CURSO INTRODUCTORIO A C++
 
 Comenzaremos con la intro al lenguaje C++.Veremos los siguientes fundamentos:
 
@@ -9,9 +10,9 @@ Comenzaremos con la intro al lenguaje C++.Veremos los siguientes fundamentos:
 6- Bucles
 7- Tuplas
 
-					VIDEO 66 CONCEPTOS ESENCIALES
+				VIDEO 66 CONCEPTOS ESENCIALES
 
-Algoritmo: un algoritmo no es más que un método para resolver un problema.Normalmente se describe como una secuencia de pasos
+Algoritmo: un algoritmo no es más que un método o forma para resolver un problema.Normalmente se describe como una secuencia de pasos
 
 Lenguaje de programación: es un "idioma" usado para describir/mandar instrucciones a un ordenador.Esta compuesto de datos e instrucciones.
 Los lenguajes de programación tienen una sintaxis y semántica muy estrictas
@@ -142,7 +143,6 @@ int main(){
 
 Veamos los operadores de suma,resta,multiplicación,división y módulo.Realmente no tienen ciencia alguna,más que respetar la sintaxis de C++:
 
-
 int main(){
   int a;
   int b;
@@ -158,9 +158,7 @@ int main(){
 }
 TIP: en vim borro hasta el final del file con dG
 
-
 			SECCION 17 CONDICIONALES Y BUCLES
-
 
 La estructura condicional if | if/else | if/elseif/else permite cambiar el flujo del programa en base a condiciones.Es algo básico en programación.
 TIP: fijate que he usado la forma corta de los if ya que es sólo una instrucción.Necesitaré las llaves sin son más de una:
@@ -277,6 +275,7 @@ int main()
 Sencillo.
 NOTA:las librerias como #include <iostream> añaden funcionalidad.En este caso me dan acceso a los objetos cout y cin.Otra forma de hacer el salto de linea es usar \n en vez de << endl;
 TIP: >> es el extraction operator y se usa con cin,mientras que << es el insertion operator y se usa con cout
+Es por ello que es cin >> variable,porque extraigo el valor de la consola,mientras que cout << "string" inserta el valor a la consola.
 Puedo declarar una constante en C++ con la keyword const.
 
 			VIDEO 81 EJERCICIO MATH OPERATIONS CON BUCLES
@@ -429,7 +428,7 @@ NOTA: std es la libreria standard de C++.Parece que traerla siempre es algo bás
 
 		VIDEO 84 EJERCICIO TIME DESCOMPOSITION CON PASO POR REFERENCIA
 
-Escribe un procedimiento que dada una catidad de segundo compute cuantas horas,minutos y segundos representa:
+Escribe un procedimiento que dada una cantidad de segundos compute cuantas horas,minutos y segundos representa:
 void decompose(int seg, int& h,int& m, int& s){
  s = seg % 60;
  m = (seg/60) % 60;
@@ -634,7 +633,7 @@ Los vectores bidimensionales son comunmente llamados matrices en programación.U
 La sintaxis sería vector<vector<int>> name(filas,columnas) para este vector bidimensional de enteros.
 Po ejemplo,para declarar un vector de 3 filas y dos columnas.
 Fijate que cada columna o posicion es otro vector,muy importante,cada elemento es un vector en si,en vez de un string o un object,etc,luego deberé declararlo asi:
-vector< vector<int>> matrix(3,vector<int>(2)
+vector< vector<int>> matrix(3,vector<int>(2));
 
 Bien podria ser un vector de vectores<char>:
 e h i  
@@ -729,7 +728,148 @@ NOTAS: fijate en el uso de typedef <Type> name para declarar un tipo vector<vect
 0 0 1 0 0 0 <- no está claro como comprobar la diagonal realmente
 0 0 0 0 0 1
 
-		SECCION 20 FUNDAMENTOS - TUPLAS
+		SECCION 20 FUNDAMENTOS - TUPLAS ó STRUCTS
 
-		
+Veremos las tuplas o structs,también llamadas records en otros lenguajes.
+
+La diferencia principal con un vector es que en las structs | tuplas | records todos los componentes de la struct son de distintos tipos,mientras que en un vector sus elementos serán todos int o todos char o todos string.
+
+Otra diferencia es que el nombre no es uniforme
+TIP: el nombre viene de variable estructurada,ya que se intenta crear una estructura de dato dinámica,muy cambiante.Sirven para trabajar con variables relacionadas(object literal)
+
+Para declarar una struct o tupla se usa la siguiente sintaxis:
+struct Persona
+{
+  string nombre;
+  int edad;
+  bool es_sano;
+  string lugar_residencia;
+}; <- fijate que es la primera vez que debo poner un punto y coma despues de un corchete en C++
+Nótese también que no hay modificadores de acceso,solo tipo + nombre.
+
+Una vez declarada la struct puedo crear más personas.Fijate que es un simple object literal de JS:
+int main() {
+  Persona p;
+  p.nombre = "Asinto";
+  p.edad = "151";
+  p.es_sano = (p.edad > 80);
+  p.lugar_residencia = "Mordor";
+  }
+
+  cout << p.nombre << " vive en " << p.lugar_residencia << endl;
+
+Fijate que manejar este tipo de estructuras son algo básico en programación.
+
+			VIDEO 99 DISTANCIA EUCLIDIANA
+
+Escribir una funcion llamada dist que recibe un punto a y un punto b( las structs) y retorna la distancia euclidiana(la raiz cuadrada de la suma de las distancias al cuadrado:
+distancia ab = √(x1 - y1)² + (x2 - y2)²			
+Fijate que voy a necesitar la libreria <cmath> para usar el método sqrt:
+
+double dist(const Point& a, const Point& b) {
+  double h_axis = (a.x - b.x) * (a.x - b.x);
+  double y_axis = (a.y - b.y) * (a.y - b.y);
+
+  return sqrt(h_axis + y_axis);
+}
+La struct u objeto literal luce asi:
+
+struct Point {
+  double x;
+  double y;
+};
+
+		VIDEO 100 EJERCICIO DOS - RELOJ - USANDO TUPLAS O STRUCTS
+
+Usando la estructura de datos Clock la cual tendrá tres variables enteras h,m y s implemente las siguientes funciones y procedimientos,las cuales devuelven estructuras de datos Midnight o simplemente no retornan nada(ver pdf).
+
+Clock midnight(){
+  Clock reloj;
+  reloj.h = reloj.m = reloj.s = 0;
+  return reloj;
+}
+
+void increase(Clock& c) {
+  ++c.s;
+}
+void increase59(Clock& c) {
+  c.s += 59;
+}
+
+void printClock(Clock& c) {
+  if(c.s >= 60) {c.s %= 60; ++c.m; }
+  if(c.m >= 60) {c.m %= 60; ++c.h; }
+  if(c.h >= 24) {c.h %= 24; }
+  cout << "La hora actual es " << endl;
+  if(c.h < 10) cout << "0";
+  cout << c.h << ":";
+  if(c.m < 10) cout << "0";
+  cout << c.m << ":";
+  if(c.s < 10) cout << "0";
+  cout << c.s << endl;
+}
+
+Recuerda que imprimir en formato HH:MM:SS es bastante sencillo,sólo hay que mirar si es menor que 10 cada propiedad e imprimir un 0 si sí lo es.Despues imprimir el valor.Recuerda que lo tienes aqui por si un día lo necesitas.
+Fijate que con una funcion y un par de procedimientos tengo mucho control sobre el reloj.Genial.
+
+		VIDEO 101 NURSERY SCHOOL - DIFICULTAD MEDIA 
+
+TIP: para ordenar un vector usaré el método sort(a.begin(),a.end(),compare) donde a es el vector a ordenar(de principio a fin,pues usé begin y end) y compare es la funcion a comparar por cada iteración.
+Este método o algoritmo de comparación necesita de #include <algorithm> pues es considerado un algoritmo de ordenación y en esa libreria residen.
+NOTA: la funcion compare es un criterio de comparación y debe retornar un booleano.Recibe dos instancias de objeto y las compara:
+
+bool criterio_ordenacion(Maestro& a,Maestro& b)
+{
+  if(a.cantidad_dulces == b.cantidad_dulces){
+    if(a.cantidad_zanahorias == b.cantidad_zanahorias){
+      if(a.nombre_maestro.size() == b.nombre_maestro.size()){
+        //cojo el que va antes en el alfabeto,debe ser el menor por ello
+        return a.nombre_maestro < b.nombre_maestro; 
+      }else{
+        return a.nombre_maestro.size() < b.nombre_maestro.size();
+      }
+    }else{
+     return a.cantidad_zanahorias > b.cantidad_zanahorias; 
+    }
+  }else {
+    return a.cantidad_dulces > b.cantidad_dulces;
+  };
+}
+
+Fijate que la clave estuvo en conocer el método sort(vector x,vector y, compareFuntion) y que esa funcion retorna un bool.Sencillo más o menos
+
+int main() {
+  cout << "Inserte el numero de casos" << endl;
+  int n_casos;
+  cin >> n_casos;
+
+  for (int i = 0; i < n_casos; ++i) {
+    cout << "inserte el numero de profes para el caso " << i << endl;
+
+    int n_profes;
+    cin >> n_profes;
+    vector<Maestro> m (n_profes);
+    
+    for (int j = 0; j < n_profes; ++j) {
+      cout << "Inserte el nombre del maestro: " << j << endl;
+      // cin.ignore();
+      cin >> m[j].nombre_maestro;
+      // getline(cin, m[j].nombre_maestro);
+      cout << "Inserte la cantidad de dulces que dio " << m[j].nombre_maestro << endl;
+      cin >> m[j].cantidad_dulces;
+      cout << "Inserte la cantidad de zanahorias que dio " << m[j].nombre_maestro << endl;
+      cin >> m[j].cantidad_zanahorias;
+    }
+
+    sort(m.begin(),m.end(), criterio_ordenacion);
+
+    for(int k = 0; k < n_profes; ++k){
+      cout << m[k].nombre_maestro << endl;
+    }
+    
+    cout << endl;
+
+  }
+}
+
 
