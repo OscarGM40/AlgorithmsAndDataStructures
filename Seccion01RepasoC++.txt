@@ -872,4 +872,74 @@ int main() {
   }
 }
 
+		SECCION 21 PROBLEMAS AVANZADOS - RIO DIGITAL
 
+Un río digital es una secuencia de nºs donde el número que sigue a n es n más la suma de sus dígitos.Por ejemplo, 12345 es seguido or 12360,porque 12345 + 1 + 2 + 3 + 4 + 5.
+Asi pues 12360 sería 12372 porque 1+2+3+6+0
+
+Fijate que se trata de 4 secuencias,la del rio 1 la del rio 3 y la del rio 9. Si el numero actual de la secuencia n no coincide con las que ya tienen los rios hay que evolucionar el rio n.
+
+La clave estuvo en la recursividad y la division entera(135/10 es 13 si estoy con enteros).También estuvo en sacar las unidades de un numero con el resto:
+
+int suma_de_digitos(int z) {
+  if(z < 10) return z;
+  else{
+   return z%10 + suma_de_digitos(z/10)
+  }
+}
+* Fijate que me falta sumarle a si mismo,pues suma_de_digitos solo saca el digito a sumar
+int getNext(int a){
+  return a + suma_de_digitos(a);
+}
+Ahora viene otra parte importante,ya que si el numero del rio n se pasa del numero x en el rio 1 o 3 o 9 tengo que evolucionarlos una posicion,y si no coincide al propio rio n:
+
+int encuentro_de_rios(int n){
+  int r1 = 1;
+  int r3 = 3;
+  int r9 = 9;
+  while( n != r1 && n != r3 && n != r9){
+    if(n > r1) r1 = getNext(r1);
+    else if(n > r3) r3 = getNext(r3);
+    else if(n > r9) r9 = getNext(r9);
+    else n = getNext(n);
+  }  
+  return n;  
+}
+
+			VIDEO 103 BUSQUEDA DICOTÓMICA
+
+Escriba una función recursiva eficiente que devuelva la posicion x en el subvector v[a ...z].La funcion debe devolver -1 si x no pertenece al vector o si a > z
+
+/* busqueda dicotómica [1.2, 2.3, 5.6, 4.3,8.1]*/
+/* devolver la posicion de un array ordenado al que le paso el slice por la izquierda y por la derecha */
+/* PRECONDICION: el vector esta ordenado crecientemente */
+int position(double x, const vector<double> &v, int left, int right)
+{
+  /* una función recursiva siempre tiene un paso base o condicion de salida*/
+  if (left > right)
+    return -1;                  // en este caso es que left sea mayor que right
+  int pos = (right + left) / 2; // posicion del medio
+ 
+  if (x > v[pos])
+    return position(x, v, pos + 1, right);
+  if (x < v[pos])
+    return position(x, v, left, pos - 1);
+  return pos; // si son iguales devuelvo la posicion
+}
+Fijate que la clave de nuevo estuvo en la recursividad,cada vez que se llame la función a si misma ira dando un corte en el arreglo.Es eficiente por las expresiones lógicas.
+
+Obviamente hay que crear un vector de doubles etc:
+
+int main() {
+  int n;
+  cin >> n;//numero de elementos
+  vector<double> prueba(n);
+  for(int i = 0; i < n; ++i){
+    cin >> prueba[i];
+  }
+
+  double x = 2.5;
+  cout << "El elemento " << x << " se encuentra en la posicion " << position(x,prueba,0, n -1) << endl;
+
+}
+Desde luego es muy interesante todo esto.

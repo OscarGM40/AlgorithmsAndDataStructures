@@ -1,0 +1,37 @@
+			SECCION 02 NOTACIÓN ASINTÓTICA
+
+En esta sección aprenderé a calcular el coste de un algoritmo y analizar si es eficiente.
+Notación O Grande( Big O Notation) <- es cota superior asintótica en el analisis de algoritmos
+Notacion Zetha Grande( Big Zetha Notation) <- proporciona la mejor aproximación sobre la tasa de crecimiento de un algoritmo
+Notación Omega Grande(Big Omega Notation) <- representa una función que indica el mínimo de tiempo que un algoritmo puede tardar(el ratio minimo de crecimiento para ese algoritmo)
+
+Estas notaciones tienen su forma auxiliar(sin el adjetivo grande) es decir notacion O pequeña y Omega pequeña(no existe Zetha pequeña)Veré porqué no existe Zetha pequeña.En resumen hay 5 tipos de notaciones.
+
+También veré el Teorema Maestro(Master Theorem) que en el analisis de algoritmos porporciona una soluciòn sencilla en términos asíntoticos para ecuaciones de recurrencia que ocurren en muchos algoritmos de forma recursiva,sobre todo en los algoritmos de divide y vencerás.
+
+			VIDEO 04 COSTE DE UN ALGORITMO
+
+Dado un vector v (que no es más que una serie de elementos del mismo tipo en C++), imaginemos que quiero saber si un elemento existe en ese vector.Podria crear el siguiente algoritmo:
+
+bool esta_elemento(x int,vector<int>& v){
+  for(int i = 0; i < n;++i){
+      if( x == v[i] return true
+    }
+    return false;
+}
+
+Bien,cual sería el coste de este algoritmo? Para definir el coste tengo que tener en cuenta:
+1- El coste se define en función de la entrada(más concretamente del tamaño de la entrada).En este caso la entrada es el tamaño del vector(6 elementos por ejemplo)
+El algoritmo hace un total de n iteracciones,pero fijate que en cada iteración hace un trabajo constante(siempre hace lo mismo en cada iteracción).
+
+Bien, imaginando un vector [3,2,5,1,4,6] y que quiero buscar el 1 sé que al de 4 iteracciones lo encontraré,y como máximo hará 6 iteracciones,o n iteracciones,por lo tanto N ES UNA COTA SUPERIOR.
+Es decir,el coste de este algoritmo como mucho será n.
+Se representa asi O(n) <- O grande de n. Se trata de una cota superior asintótica,pudiendo concluir que el algoritmo puede tardar como mucho n.
+
+Como además la funcion esta_elemento no hace nada más podemos decir que el algoritmo de esa función tiene coste de O(n).
+NOTA: un algoritmo siempre tendrá un coste y habrá algoritmos mejores o más eficientes que otros.Por lo tanto es muy importante saber identificar el coste de un algoritmo y saber identificar y diseñar algoritmos mejores y más eficientes(con menos coste) con el fin de ser mejores programadores.
+
+		VIDEO 05 BIG O NOTATION - NOTACION O GRANDE
+
+		
+
