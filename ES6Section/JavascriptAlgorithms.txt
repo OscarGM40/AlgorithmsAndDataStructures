@@ -1,0 +1,235 @@
+					ALGORITHMS IN JAVASCRIPT
+
+Source: https://www.youtube.com/watch?v=coqQwbDezUA&list=PLC3y8-rFHvwiRYB4-HHKHblh3_bQNJTMa&ab_channel=Codevolution
+
+Este curso es la parte uno.La segunda parte es sobre estructuras de datos.Veremos:
+1- Que es un algoritmo
+2- Mediremos su rendimiento
+3- Time & Space complexity
+4- Big O Notation
+5- Math algorithms
+6- Sort algorithms
+7- Search algorithms
+8- Miscelanous algorithms
+
+				VIDEO 02 WHAT IS AN ALGORITHM?
+
+An algorithm is a set of well-defined instructions to solve a particular problem.(noodles=fideos,boil=hervir,lid=tapa).
+An algorithm have: inputs,the algorithm  itself and the output
+For example,an algorithm to add two numbers:
+inputs(numbers a and b)
+algorithm: the function ,the inside of it(in which we calculate that sum) and also the return
+output: the sum of 'a' and 'b' 
+
+Characteristics: an algorithm should have:
+1- Well defined inputs and outputs:
+2- Each step should be clear an unambiguous
+3- Should be language independent
+
+As a developer,I am going to come across(to come across=encontrar) problems that I need to solve.Learning algorithms translates to learning different techniques to efficiently solve those problems
+One problem can be solved in many ways using different algorithms.
+Every algorithm comes with its own tradeoffs when it comes to performance
+
+Todo esto deja entrever claramente que hay que poder medir estos algoritmos,para saber cual me conviene más.
+
+			VIDEO 03 TIME AND SPACE COMPLEXITY
+
+Given that there are multiple algorithms to sort a list of numbers,how do we analyse which one is the most efficient algorithm?.Generally,when we talk about performance,we use an absolute measure.
+The absolute running time of an algorithm cannot be predicted,since it depends on a number of factors(the programming language,the computer the program runs on,other programs running at the same time,the quality of the operating system,...) 
+
+Es por esto que evaluamos el rendimiento de un algoritmo in terms of its input size:
+TIME COMPLEXITY: amount of time taken by an algorithm to run,as a function of input size  
+SPACE COMPLEXITY: amount of memory taken by an algorithm to run, as a function of input size
+
+By evaluating against the input size, the analysis is not only machine independent but the comparison is also more appropiate
+There is no one solution that works every single time.I should try to know multiple ways to solve the problem and use the best solution,given my constraints
+
+If my app has plenty of memory to work with, I don't have to worry about space complexity(but yes about time complexity,I suppose)
+If my app has little memory to work with,I should pick a solution that is relatively slower but needs less space
+
+HOW TO REPRESENT COMPLEXITY: obviamente lo siguiente es ver como se puede representar esta complejidad en tiempo y espacio.Lo hacemos usando notación asintótica:
+Asymptotic notations are mathematical tools to represent time and space complexity
+There are mainly three asymptotic notations:
+1. Big O Notation (O-notation)  -> Worst case complexity
+2. Omega Notation (Ω-notation) -> Best case complexity
+3. Theta Notation (Θ-notation) -> Average case complexity
+
+Nos centraremos en el peor caso de uso,la notación big O
+
+			VIDEO 04 BIG O NOTATION
+
+Recordemos que el peor caso de complejidad tiempo/espacio para un algoritmo esta representado con la notacion big O.En términos muy simples la notación big O describe la complejidad de un algoritmo usando términos algebraicos.Tiene dos caracteristicas importantes:
+1- It is expressed in terms of the input
+2- If focuses on the bigger picture without getting caught up in the minute details.
+
+Imaginando este algoritmo:
+function summation(n){
+  let sum = 0;
+  for(let i = 1;i <= n;i++){
+    sum += i;
+  }
+  return sum;
+}
+ Dado que no podemos saber el tiempo exacto lo unico que podemos hacer es contar el numero de sentencias que se van a ejecutar:
+Se ejecutará el let sum = 0 una vez
+Se ejecutará el sum +=i 4 veces
+Se ejecutará el return una vez
+* Podriamos decir pues que se ejecutará n + 2 veces(siendo n el input).  
+Sin embargo hemos dicho que la big O no se centra en los detalles.Si bien con un input de 4 decir que en 4 + 2 el 2 es insignificante es decir mucho,si que lo es con un input de 100.000.000(da igual cien millones cien millones + 2).Luego el contador sería 'n' y no 'n + 2'.
+
+Asi que tendriamos O(n) <- Linear  como time complexity.Es decir que cuando el input incremente también lo hara el time de forma linear.
+Ya desde este momento cada vez que vea un bucle en mi código puedo aseverar,casi sin fallo, que la complejidad será al menos lineal O(n) 
+
+Veamos otro algoritmo como solución del mismo problema:
+function summation(n){
+  return (n * (n+1) )/2; 
+El time complexity para este algoritmo es O(1). Al coste O(1) se le llama complejidad constante.Solo se ejecutará una vez la linea(de ahi el O(1) ).
+
+Si hubiera dos ciclos anidados la complejidad sería O(n2) <- n al cuadrado. Se le llama complejidad cuadrática 
+Si hubiera tres ciclos anidados sería O(n3)<- n al cubo.Se le llama complejidad cúbica
+
+SPACE COMPLEXITY: la idea es similar.
+O(1) Constante Si el algoritmo no requiere memoria extra al crecer el input es constante: ejemplo,ordenar un array sin utilizar arrays adicionales
+O(n) linear Aqui el espacio extra crece cuando lo haga el input
+O(logn) Logaritmica el espacio extra crece pero no al mismo ratio que lo hace el input
+
+Puede verse perfectamente en la gráfica que O(n a la dos) o O(2 factorial de n),son horribles en rendimiento (la peor es O(n!) <- O factorial de n).O(1) constante y O(n) son las mejores y O(log n) está en el medio.Se recomienda no subir de O(log n)
+En este punto se recomienda repasar los videos 3 y 4.También se recomienda no escribir cógido complejo sólo por la performance,sino código fácil de leer y mantener
+Entender la big O para Arrays y Objetos será lo siguiente y es clave para determinar correctamente el coste de mis algoritmos.
+
+				VIDEO 05 OBJECTS AND ARRAY BIG O 
+
+Remember: Big-O notation describes the complexity of an algorithm using algebraic terms.I has two important characteristics:
+1- It is expressed in terms of the input
+2- It focuses on the bigger picture rather than getting caught up in the minute details
+
+IMPORTANT: An object is a collection of key-value pairs.So both Object and arrays are collection of data.
+If I want to remove a key-pair the cost is:
+Insert -> O(1) <- constant 
+Remove -> O(1) <- constant 
+NOTA: esto es porque da igual cuantas propiedades tenga un objeto,necesitará el mismo tiempo para borrar o insertar una más.
+Accessing a value given a key -> O(1)
+NOTA: acceder a person.firstName es igual que acceder a person.age,por ejemplo 
+Search for a value(not through the key -> O(n) 
+Obviamente,n es el numero de propiedades y es el máximo(si es que justo es la última
+
+Métodos más comunes en objetos y su coste:
+Object.keys() => O(n) <- linear
+Object.values() => O(n) <- linear
+Object.entries() => O(n) <- linear
+
+Todos ellos tienen complejidad linear(recuerda que devuelven arrays)
+
+ARRAYS: la diferencia con los objetos es que un array es una colección ORDENADA de valores (const odd = [1,3,5,7,9]).Empiezan en el indice 0 y éste va incrementando en uno.Veamos el coste de las operaciones más comunes:
+Insert/remove at end -> O(1) <- time complexity is constant
+Insert/remove at beginning -> O(n) <- time complexity is linear
+NOTA:esto es asi porque el indice tiene que ser reseteado/reestablecio por cada elemento restante,en resumen va a iterar por todo el array para cambiar los indices. 
+
+Accessing an element is constant time complexity -> O(1) 
+Fijate que tomar un elemento en la posición 0 o en la 100 es el mismo tiempo(luego no itera para ello).Esto es porque están ordenados.Muy importante,ya que siempre sueles pensar que no es asi,y que tiene que iterar esas n veces 
+Searching for an element is linear time complexity O(n) ya que puede que haya que iterar por todo el arreglo 
+
+Métodos más comunes en arrays y su coste:
+Push/pop O(1) <- por ser el último
+Shift/unshift/concat/slice/splice <- todos O(n) porque van a iterar para restablecer el index
+forEach/map/filter/reduce <- todos O(n) esto es importante ya que usar anidamientos de estos métodos me da un time complexity cuadratic. 
+
+NOTA: usar funciones encadenadas no da un complejidad temporal cuadratica si no que es O(n) + O(n):
+data.map(d => d.age).filter(age => age <= 18) <- esto no es cuadratica,son dos lineares
+
+			VIDEO 06 MATH ALGORITHMS
+
+Es hora de codear un poco.Veremos como solucionar algunos algoritmos básicos como la fibonacci sequence,factorial of a number,prime number and power of two.We will learn about recursion too.Despues implementaremos las mismas soluciones con recursion.
+I should approach this as next:
+1- problem statement
+2- pause the video and try solving the problem
+3- implemenent the solution together
+4- finally we will determine the big-O solution for the algorithm
+
+    		VIDEO 07 FIBONACCI SEQUENCE
+
+// problem statement(in the fibonacci sequence each number is the sum of the two preceding ones)
+//  given a number 'n', find the first 'n' elements of the fibonacci sequence <-ojo,empezar con un array base cambia el resultado:
+
+function fibonacci(n){
+  const fib = [0,1]; <- lo mejor parece empezar con esto de base,sino hay que declarar constantes
+  for(let i = 2; i < n; i++){
+    fib[i] = fib[i-1] + fib[i-2] <- ni siquiera hay que hacer el push,la asignación nos vale(da igual porque ambos serían O(1) constante
+  }
+  return fib;
+}
+
+NOTA: si bien el big-O sería realmente de O(n-2) ya que nos estamos saltando dos iteraciones,esta notación ya dijimos que se centra en aproximaciones,luego lo tengo que descartar.
+
+			VIDEO 08 FACTORIAL OF A NUMBER
+
+// given an integer 'n',find the factorial of that integer
+// a factorial onf a non-negative number is the product of all positive integers(so I discard the zero) less than or equal to n
+// factorial of zero is 1
+function calculateFactorial(n){
+  let result = 1;
+  for(let i = n; i > 1;i--){
+    result *= i;
+  }
+  return result;
+}
+console.log(calculateFactorial(0));
+console.log(calculateFactorial(5));
+De nuevo el coste es linear y fijate que puedo quitarme la iteración de cuando i === 1 ya que n*1 es n.
+
+			VIDEO 09 PRIME NUMBER
+
+Si bien parecia que la complejidad iba a ser lineal la podemos reducir mediante un concepto matemático muy interesante:
+// a prime number is a natural number greater than 1 that is not a product of two smaller natural numbers
+// NOTA: integers larger than the square root do not need to be checked since if n=a*b,one of the two factors(a or b) is less than or equal to the square root of n(y si es un factor de una raiz cuadrada)
+
+const isPrime = n => {
+  if(n < 2) return false;
+  // for(let i = 2;i < n;i++){
+  // si bien podemos iterar desde 2 hasta el numero inmediato anterior al dado podemos escaquearnos de muchas iteraciones con la regla anterior(SQRT)
+  for(let i = 2;i <= Math.sqrt(n);i++){
+    // time complexity is O( sqrt(n) ) <-  
+    if(n % i === 0){
+      return false
+    }
+  }
+  return true;
+}
+
+VIDEO 10 POWER OF TWO
+
+// given a positive integer 'n',determine if the number is a power of two or not
+// an integer is a power of two if there exists an integer 'x' such thant 'n'===x*x
+// take in count that 1 is the potency of 2*0
+
+const isPowerOfTwo = (n) => {
+  // 1 es dos a la 0,luego es potencia de 2 tmb
+  if (n === 1) return true;
+  // mientras pueda dividirlo por 2 lo reasigno
+  while (n % 2 === 0 && n > 2) {
+    // la complexity es O(log n) por la siguiente linea,fijate que O(log n) es más costosa que una linear
+    // log n => al aumentar el valor de entrada el numero de instrucciones incrementa pero no en la misma cantidad
+    n = n / 2;
+  }
+  return n === 2;
+};
+
+// LOGARITMO:el exponente al que hay que elevar un numero(llamado base) para obtener otro numero determinado(logaritmo en base 10 de 100 ) <- traduce en base como 'para' => logaritmo para 10 y que dé 100 tiene que ser 2.
+// logaritmo para 3(en base 3) de 9 es 2 logaritmo en base 4 para 30 <- unos 7.25(logaritmo en base es igual que exponente para)
+
+NOTA:hay una solucion con una complejidad de O(1).Esta solucion implica usar operaciones bitwise
+function isPowerOfTwoBitWise(n){
+  if (n < 0) return false;
+  return (n & (n-1)) === 0;
+}
+
+      VIDEO 11 RECURSION
+
+Recursion is a problem solving technique where the solution depends on solutions to smaller instances of the same problem.More technically, recursion is when a function calls itself.
+¿Why do we need recursion? Recursion is a great technique to simplify your solution.
+
+Toda recursion debe tener un caso base,una condición para que pare la recursión.
+Recuerda que una recursion puede simplificar el problema,pero puede que sea menos eficiente que una iteración
+
+    VIDEO 12 RECURSIVE SOLUTION FOR FIBONACCI SEQUENCE
+
