@@ -233,3 +233,88 @@ Recuerda que una recursion puede simplificar el problema,pero puede que sea meno
 
     VIDEO 12 RECURSIVE SOLUTION FOR FIBONACCI SEQUENCE
 
+Tips for recursive solutions:
+1- Figure out how to break down the problem into smaller versions of the same problem
+2-Identify the base case for recursion
+
+function recursiveFibonacci(n){
+  case base para que pare 
+  if(n < 2){
+    return n; <-
+  }
+  smaller version
+  return recursiveFibonacci(n-1) + recursiveFibonacci(n-2);
+}
+fijate que cuando sea f1 va entrar por el de arriba y retorna 1 y para
+El coste es O(2^n) porque f7 llama a f6 y f5 pero esas dos llamadas llamaran a 4 y esas 4 a 8 funciones
+NOTA: la performance de O(2^n) es aun peor que O(n^2),solamente la supera O(!n).
+
+    VIDEO 13 RECURSIVE FACTORIAL
+
+Given that the factorial of 0 is 1 we must use this as case base:
+
+const recursiveFactorial = (n) => {
+  if(n === 0) return 1; <- base case
+  return n*factorial(n-1); the iteration
+}
+
+Fijate que puedo ver la recursion como una iteración,y que en cuanto una funcion se llame a si misma va a entrar en bucle automáticamente,luego hay que pararlo.
+
+ cost O(n) => para 5! llamaré a 5*4! que llamará a 4*3! que llamará a 3*2! que llamará a 2*1! que llamará a 1*0! que llama al return 1 y sale,es decir para una entrada n se llama n veces,luego es un coste linear
+Esto termina con la parte de algoritmos matemáticos.
+
+         VIDEO 14 SEARCH ALGORITHMS
+
+En esta sección veremos algoritmos de busqueda.Es bastante pequeña ya que vamos a ver sólo dos:
+1 - Linear search
+2 - Binary search
+3 - Recursive binary search
+The approach will be the same as seen before.
+
+VIDEO 15 LINEAR SEARCH ALGORITHM
+
+// Given an array of 'n' elements and a target element 't',find the index of 't' in the array.Return -1 if the target element is not found
+// arr = [-5,2,10,4,6], t = 10 should return 2
+// arr = [-5,2,10,4,6], t = 6 should return 4
+
+const linearSearch = (arr, target) => {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === target) {
+      return i;
+    }
+  }
+  return -1;
+};
+
+// es O(n) porque podria iterar por todo el array perfectamente
+arr = [-5,2,10,4,6];
+console.log(linearSearch(arr,10))
+console.log(linearSearch(arr,6))
+console.log(linearSearch(arr,20))
+
+Fijate que es O(n) porque hay un for-loop
+
+VIDEO 16 BINARY SEARCH
+
+Fijate que la solución eran dos punteros y era bien sencilla.
+
+function binarySearch(arr, target) {
+  // fijate que a - b poner al menor en la izda de la resta
+  arr = arr.sort((a, b) => a - b);
+  let start = 0,
+    end = arr.length - 1; // 0 y 4
+  while (start <= end) {
+    // Math floor in case the op is an odd number
+    let mid = Math.floor((start + end)/2); // 0+ 4 /2 === 2
+    if(arr[mid] === target) return mid; //fijate que el return sale del while,asinto
+    else if( arr[mid] < target){
+      start = mid +1;
+    }
+    else{
+      end= mid-1;
+    }
+  }
+  return -1
+}   
+
+El coste es O(log n2) ya que estamos dividiendo el input por 2 cada iteración(y porque es más costosa entonces que una linear??No lo entiendo,asinto)
