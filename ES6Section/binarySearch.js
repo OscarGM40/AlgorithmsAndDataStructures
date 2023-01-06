@@ -1,16 +1,8 @@
 // Given a sorted array of 'n' elements and a target element 't', find the index of 't' in the array.Return -1 if the target element is not found.
-// arr = [-5,2,4,6,10], t = 10 should return r
+// arr = [-5,2,4,6,10], t = 10 should return 4
 // arr = [-5,2,4,6,10], t = 6 should return 3
-const linearSearch = (arr, target) => {
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === target) {
-      return i;
-    }
-  }
-  return -1;
-};
 
-/* function binarySearch(arr, target) {
+ function binarySearch(arr, target) {
   // fijate que a - b poner al menor en la izda de la resta
   arr = arr.sort((a, b) => a - b);
   let start = 0,
@@ -27,8 +19,8 @@ const linearSearch = (arr, target) => {
     }
   }
   return -1
-} */
-function binarySearch(arr, target) {
+} 
+/* function binarySearch(arr, target) {
   let start = 0,
     end = arr.length - 1;
   for (;;) {
@@ -40,9 +32,9 @@ function binarySearch(arr, target) {
       end = mid - 1;
     }
   }
-}
+} */
 
 arr = [-5, 2, 6, 4, 10];
 console.log(binarySearch(arr, 10));
 console.log(binarySearch(arr, 2));
-// console.log(binarySearch(arr, 20));
+console.log(binarySearch(arr, 20));

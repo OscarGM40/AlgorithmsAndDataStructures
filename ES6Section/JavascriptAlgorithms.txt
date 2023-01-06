@@ -318,3 +318,110 @@ function binarySearch(arr, target) {
 }   
 
 El coste es O(log n2) ya que estamos dividiendo el input por 2 cada iteración(y porque es más costosa entonces que una linear??No lo entiendo,asinto)
+
+VIDEO 18 RECURSIVE  BINARY SEARCH
+
+function recursiveBinarySearch(arr, left, right, target) {
+  if (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+    if (arr[mid] === target) return mid;
+    if (arr[mid] < target) {
+      return recursiveBinarySearch(arr, mid + 1, right, target);
+    }
+    return recursiveBinarySearch(arr, left, mid - 1, target);
+  }
+  //base case
+  return -1;
+}
+
+arr = [-5, 2, 6, 4, 10];
+console.log(recursiveBinarySearch(arr, 0, arr.length - 1, 10));
+console.log(recursiveBinarySearch(arr, 0, arr.length - 1, 2));
+console.log(recursiveBinarySearch(arr, 0, arr.length - 1, 20));
+
+// Fijate que nada me impide cambiar el numero de argumentos para meter la recursividad.De echo sin hacerlo no podria refactorizar binarySearch.
+// Fijate también que lo cambiante es lo parametrizado
+// La time complexity sigue siendo O(log n)
+
+VIDEO 19 SORTING ALGORITHMS
+
+We are gonna learn about sorting algorithms:
+1- Bubble sort
+2- Insertion sort
+3- Quick sort
+4- Merge sort
+The approach wil be the same(I should try before the solution)
+
+VIDEO 20 SORTING ALGORITHMS - BUBBLE SORT
+
+// Given an array of integers,sort the array
+// const arr = [-6, 20, 8, -2, 4]; should return  [-6, -2, 4, 8, 20]
+// bubble sort idea : compare adjacent elements in the array and swap positions
+
+La solución del profe es bastante adecuada,ya que no usa dos for como usé yo:
+function bubbleSort(arr){
+  let swapped;
+  do(
+    swapped=false;
+    for(let i = 0; i < arr.length -1; ++i){
+      // fijate que perfectamente puedo comprobar arr[i] con arr[i+1],pues (4 > undefined) dará false y no entra por el bucle,iterando otra vez
+      if(arr[i] > arr[i+1]){
+        let temp = arr[i];
+        arr[i] = arr[i+1];
+        arr[i+1] = temp;
+      // si entra en el if es que no estaba ordenado y hay que cambiar la bandera para que vuelva a entrar
+        swapped = true; // que dé otra vuelta por el do/while
+      }
+    }
+  )while(swapped);
+  return arr;
+}
+
+NOTA: dado que hay dos bucles el coste es O(n^2),o cuadrático,lo cual no lo hace eficiente
+
+VIDEO 21 SORTING ALGORITHMS - INSERTION SORT
+
+// Given an array of integers,sort the array
+// const arr = [-6, 20, 8, -2, 4]; should return  [-6, -2, 4, 8, 20]
+// insert sort idea: virtually split the array into a sorted and a unsorted part 
+// Assume that the first element is alreadly sorted and remaining elements are unsorted
+// Select an unsorted element and compare with all elements in the sorted part
+// If the elements in the sorted part is smaller than the selected element,proceed to the next element in the unsorted part.Else,shift larger elements in the sorted part towards the right. 
+// Insert the selected element at the right index
+// Repeat till all the unsorted elements are placed in the right order
+
+function insertSort(arr){
+  for(let i = 1; i < arr.length; i++){
+    let nti = arr[i];
+    let j;
+    for(j = i - 1; j >= 0 && arr[j] > nti;j--){
+      arr[j+1] = arr[j]
+    }
+    arr[j+1] = arr[j]
+  }
+  return arr
+}
+
+TIPS: el primer bucle empieza desde la pos 1 ya que la 0 se presupone ordenada.El segundo bucle va de derecha a izda,empezando en la posicion i-1(ya que no sé si ese bucle tiene 4 posiciones o 5,pero si sé que empieza en i -1 y si voy hacia atras llegará hasta el 0)Además,la posicion de ese bucle tiene que ser mayor que nti luego => for(j = i -1; j >= 0 && arr[j] > arr[i],j--). Desde luego es complicadillo al principio:
+Si todo esto se da(fijate como filtramos con j>=0 and arr[j] > arr[i]) movemos una posicion a ese elemento/s con arr[j+1] = arr[j]
+Por último,aunque no hayamos movido nada,tmb habia que añadir arr[j+1] = arr[j](duplicar la ultima posicion).Un poco complejo este algoritmo.
+Dado que son dos bucles anidados el coste es O(n^2) cuadrático,igual que el bubbleSort
+
+Esta forma parece más sencilla:
+const insertionSort = (arr) => {
+  for(let i = 1; i < arr.length; i++){
+    let temp = arr[i];
+    for(let j = i - 1;j >= 0;j--){
+      if(arr[j]> temp){
+        arr[j+1] = arr[j];
+        arr[j] = temp;
+      }else{
+        arr[j+1] = temp
+        break; <- para que salga solo de este bucle y coga otra i
+      }
+    }
+  }
+  return arr
+}
+
+VIDEO 24 QUICK SORT ALGORITHM
