@@ -425,3 +425,79 @@ const insertionSort = (arr) => {
 }
 
 VIDEO 24 QUICK SORT ALGORITHM
+
+// Given an array of integers, sort the array
+// const arr = [-6, 20, 8, -2, 4]; should return  [-6, -2, 4, 8, 20]
+// concept: Begin identifing the pivot element in the array(aqui hay varias opciones):
+// pick first element as pivot
+// pick last element as pivot(our approach)
+// pick random element as pivot
+// pick median element as pivot
+// put everything smaller than the pivot into a left array and everythin greater into a right array
+// repetir por cada array left and right hasta que tenga un array de longitud 1 que estará ordenado por definicion(ya que es un elemento)
+// concatenar repetidamente el array left,el pivot y el right hasta que quede solo uno ordenado
+// [-6, 20, 8, -2, 4] el pivot es 4, me saldrá left [-6,-2] y right [8,20]
+// para el [-6,-2] cojo el pivot que es -2 y me sale un left con [-6] y un right empty
+// similarly para el [8,20] cojo el pivot que es [20] y me sale un left con [8] y un pivot con [20] y otro right empty
+// concateno por nivel ([-6,-2] como left + [8,20] como right)Al subir un nivel me queda [-6,-2] + [4] + [8,20].
+
+Fijate que el truco estaba en la llamada a la recursion en el return:
+
+const quickSort = arr => {
+  const pivot = arr[arr.length - 1];
+  const left = [];
+  const right = [];
+  for(let i = 0; i < arr.length -1;++i){
+    if(arr[i] < pivot){
+      left.push(arr[i])
+    }else{
+      right.push(arr[i])
+    }
+  }
+  **** LA CLAVE AQUI ***
+  return [...quickSort(arr),pivot,...quickSort(right)]; <- sabemos que pivot va a quedar en el medio y que a los lados van simplemente las llamadas a posibles sucesivas iteraciones.
+}
+
+NOTA:hay una solución que no toma espacio extra (https://replit.com/@Codevolution/JavaScript-Algorithms#sorting/quick-sort-in-place.js)
+
+      VIDEO 26 MERGE SORT
+
+Este problema hay que dividirlo en dos funciones.Este concepto es importante,pues nada me impide usar dos(algo que no habiamos echo aun).La primera subdividirá los arrays por recursion:
+const mergeSort = (arr) => {
+  // caso base para que pare, que la longitud sea 1
+  if(arr.length < 2){
+    return arr
+  }
+  const mid = Math.floor(arr.lenght/2);
+  const leftArr = arr.slice(0,mid);
+  const rightArr = arr.slice(mid);
+  // aqui necesitamos otra función,fijate que los argumentos son llamadas recursivas,muy interesante 
+  return merge(mergeSort(leftArr),mergeSort(rightArr))
+};
+
+const merge = (leftArr,rightArr) => {
+  //lo primero es crear el array de los sorted
+  const sortedArr = []; 
+  while(leftArr.length && rightArr.length){
+    if(leftArr[0] < rightArr[0]){
+      sortedArr.push(leftArr.shift()) // si bien puedo usar splice porque lo muta tmb lo hace shift()
+    }else{
+      sortedArr.push(rightArr[0]);
+      rightArr.splice(0,1);
+    }
+    return [...sortedArr,...leftArr,...rightArr];
+  }
+}
+El coste es log n por separarlo en dos + n del bucle while,luego es O(nlogn).El splice o shift no se cuenta pues se va a reindexar el array igualmente(no entiendo esta parte,porque no suma).Este coste es mejor que el del bubbleSort o el insertSort y es de los mejores en ordenación.
+Siempre se va a iterar una vez por cada entrada(n) pero las sucesivas entradas(log n) solo se iterará por medio set de esa entrada.
+Muy interesante esto.Seguir trabajando duro
+
+      VIDEO 27 MISC PROBLEMS
+
+Math,search and sorting algorithms are fundamentals that I should know as developer.A continuación vamos a ver otros tres problemas:
+1 - Cartesian product <- tiene un coste que aún no ha salido
+2- Climbing staircase <- usado en entrevistas
+3- Tower of Hanoi <- buen ejemplo de como la recursión puede simplificar problemas
+NOTA: Hay muchos más problemas para solucionar en Internet
+
+
