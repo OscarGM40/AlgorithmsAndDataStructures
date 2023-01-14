@@ -500,4 +500,119 @@ Math,search and sorting algorithms are fundamentals that I should know as develo
 3- Tower of Hanoi <- buen ejemplo de como la recursión puede simplificar problemas
 NOTA: Hay muchos más problemas para solucionar en Internet
 
+      VIDEO 30 CARTESIAN PRODUCT
 
+// given two finite non-empty sets,find their Cartesian Product
+//In mathematics,the Cartesian product of two sets A and B,denoted AxB, is the set of all ordered pairs(a,b) where a is in A and b is in B
+// Example One
+// const A = [1,2]
+// const B = [3,4]
+// AxB = [[1,3],[1,4],[2,3],[2,4]] es [A.1 | B.1],[A.2 | B.2]
+// Example Two
+// const C =  [1,2]
+// const D = [3,4,5]
+// CxD = [[1,3],[1,4],[1,5],[2,3],[2,4],[2,5]]
+// Concept: traverse each array and pair each element in the first array wich each element in the second array
+
+const calculateCartesianProduct = (arr1, arr2) => {
+  const result = [];
+  for (let i = 0; i < arr1.length; ++i) {
+    for (let k = 0; k < arr2.length; ++k) {
+      result.push([arr1[i], arr2[k]]);
+    }
+  }
+  return result;
+};
+const declarativeCartesianProduct = (arr1, arr2) => {
+  const result = [];
+  arr1.forEach((n) => arr2.forEach((k) => result.push([n, k])));
+  return result;
+};
+// the cost obviously is O(m*n) <- el producto de ambos length. Fijate que el coste es el producto de las entradas.
+
+      VIDEO 31 CLIMBING STAIRCASE
+
+// given a staircase of 'n' steps, count the number of distinct ways to climb to the top.You can either climb 1 step or 2 steps at time.
+// n1, climbingStaircase(1) 1  => there is only one way to climb it (1) (steps)
+// n2, climbingStaircase(2) 2  => there are two ways (1,1) and (2) (steps)
+// n3, climbingStaircase(3) 3  => there are three ways (1,1,1) (2,1) and (1,2) (steps)
+// n4, climbingStaircase(4) 5  => there are five ways (1,1,1,1,1) (2,1,1) (1,2,1) (1,1,2) and(2,2) (steps)
+// concept: at any given time,you can climb either 1 step or 2 steps
+// so if you have to climb to step 'n', you can only climb from step 'n-1' or 'n-2'
+// so calculate the ways we can climb to 'n-1' and 'n-2' steps and add the two
+// climbingStaircase(n) = climbingStaircase(n-1) + climbingStaircase(n-2)
+
+const climbingStaircase = (n) => {
+  // fijate que el caso base es este(porqué,pues a saber,asinto)
+  const noOfWays = [1, 2];
+
+  for (let i = 2; i <= n; i++) {
+    noOfWays[i] = noOfWays[i - 1] + noOfWays[i - 2];
+  }
+  return noOfWays[n - 1];
+};
+// dado que sólo tengo un for loop el time complexity es O(n) linear
+
+También lo podia haber echo por recursión.Sabiendo que una escalera de 1 es un step y de 2 son dos steps :
+const recursiveClimbingStaircase = (n) => {
+  if(n < 3) return n; <- salida
+  return recursiveClimbingStaircase(n-1) + recursiveClimbingStaircase(n-2)
+}
+Concepto: para subir a cualquier step solo puedo subir,digamos el 7, desde el 5 y el 6 y como es repetitivo(desde el 5 solo podria desde el 3 o desde el 4) hay tengo la recursion.
+
+Fijate que en este tipo de problemas no es eficiente usar recursión y sí usar un loop usando asignaciones/reasignaciones para que se quede en linear
+
+VIDEO 34 TOWER OF HANOI
+Es el tipico juego con varias piezas redondas de diferente diametro y tres palos y hay que pasar las piezas circulares de A a C mediante estas reglas:
+
+// the objective of the puzzle is to move the entire stack to the last rod,obeying the following rules
+// only one disk can be moved at them time
+// each move consists of taking the upper disk from one of the stacks and placing it on top of another stack or on an empty rod
+// lastly,no disk can be placed on top of a disk that is smaller
+// HINTS:
+//  shift 'n-1' disks from 'A' to 'B',but using 'C'(when required)
+//  shift last disk from 'A' to 'C'
+// shift 'n-1' disks from 'B' to 'C',using 'A' (when required)
+
+// n es el numero de discos
+function towerOfHanoi(n,fromRod,toRod,usingRod){
+  // case base
+  if(n === 1){
+    console.log(`Move disk 1 from ${fromRod} to ${toRod}`)
+    return;
+  } 
+
+  towerOfHanoi(n-1,fromRod,usingRod,toRod)
+  console.log(`Move disk ${n} from ${fromRod} to ${toRod}`);
+  towerOfHanoi(n-1,usingRod,toRod,fromRod)
+}
+// para calcular el the time complexity podemos contar los console.log(para 2 rods son 3 y para 3 son 7).Mas o menos es O(2^n) 
+
+towerOfHanoi(3,'A','C','B');
+
+De nuevo,recuerda que no tengo por que retornar la llamada a la recursión,puedo simplemente llamarla
+
+      VIDEO 35 RECAP  
+
+Como desarrollador se me puede pedir que conozca estos algoritmos,incluso pueden ser materia de una entrevista
+
+ALGORITH DESIGN TECHNIQUES:
+
+1 Brute force: simple and exhaustive technique that evaluates every possible outcome to find the best solution.Example: linear search
+
+2 Greedy: you choose the best option at the current time, whithout any consideration for the future.Examples: Dijkstra alg, Prim's alg and Kruskal alg (no hemos visto ninguno y son todos para una estructura de grafos)
+
+3 Divide and Conquer: with this tech you divide the problem into smaller sub-problems.Each sub-problem is then solved and the partial solutions are recombined to determine the overall solution.Example: Binary search, Quick Sort, Merge Sort and Tower Of Hanoi
+
+4 Dinamic programming: here you also divide the problem into smaller sub-problems.The difference is that you break it down into smaller but overlapping sub-problems.Then you store the result and reuse it for the same sub-problems.This is called memoization and is a optimization technique that improves the time complexity of your algorithm.Example: fibonacci numbers and climbing staircase
+
+5 Backtracking: similar to brute force.You generate all possible solutions.Each time you check if the solution satisfies all the given constrains and only then you proceed with generating subsequent solutions.Example: N-Queens problem
+
+ It is recommended to solve more problems.Here is another useful video:
+ https://www.youtube.com/watch?v=JgWm6sQwS_I&t=4s&ab_channel=Academind
+
+NOTA: fijate que O(n) es una diagonal en 45 grados,mientras que O(1)apenas se levanta de la horizontal.  
+
+PROBLEM ONE(Knapsack problem): you got a list of items,where every item has a value and a weight.You got a bag,that holds a maximum weight of X.Write a program that maximizes the value of the items you put into your bag whilst ensuring that you don't exceed the maximun weight
+
+Minuto 20

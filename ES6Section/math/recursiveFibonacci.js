@@ -6,7 +6,7 @@
 
 function recursiveFibonacci(n) {
   // base case rf0 es 0 y rf1 es 1
-  if (n < 2) {
+  if (n <= 1) {
     return n;
   }
   // smaller version => rF de n es rf de n-1 + rf de n-2

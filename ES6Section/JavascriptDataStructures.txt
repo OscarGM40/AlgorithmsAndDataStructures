@@ -1,0 +1,272 @@
+      JAVASCRIPT DATA STRUCTURES
+
+Source: https://www.youtube.com/watch?v=poGEVboh9Rw&list=PLC3y8-rFHvwg6nsAOfC5Is18KB2DrVOJy&ab_channel=Codevolution
+
+Cada lenguaje tiene su Set de data structures.En este curso veremos las que tiene disponible Javascript.
+Es posible implementar una estructura de datos en diferentes maneras.
+No debo memorizar la implementación,sino entenderla.
+
+Que es una estructura de datos? Una estructura de datos es una manera de organizar y almacenar datos de forma que puedan ser usados eficientemente.
+Una estructura de datos es una colección de valores,las relaciones entre ellos y las funciones u operaciones que pueden ser aplicadas a esa estructura.
+
+Usar una estructura de datos adecuada hará que una función se comporte eficientemente o no.Además,también me ayudará a solucionar los problemas de una forma más eficiente,tanto en espacio como en tiempo.
+Aprender sobre estructuras de datos también me dará mayor conocimiento sobre ciertas cosas que ya deberia conocer como:
+  DOM - Tree data structure 
+  Browser back and forward funtionality - Stack data structure
+  OS job scheduling <- Queue data structure(colas)
+
+En el curso veré las siguientes estructuas en esta secuencia:
+1- Built in data structures
+  - Arrays
+  - Objects
+  - Sets
+  - Maps
+2- Custom data structures
+  - Stacks
+  - Queues
+  - Circular queues
+  - Linked lists
+  - Hash tables
+  - Trees
+  - Graphs
+Al final del curso tendré un conocimiento profundo de estructuras de datos en JS.
+
+      VIDEO 02 ARRAY DATA STRUCTURE
+
+An array is a data structure that can hold a collection of values
+Arrays can contain a mix of different data types in JS.You can mix strings,booleans,numbers,...all in the same array 
+Arrays are resizable.You don't have to declare the size of an array before creating it.
+Javascript arrays are zero-indexed and the insertion order is maintained.
+Arrays are iterables.
+const arr = [1, 2, 3, "Vishno", true];
+arr.push(4);
+arr.unshift(0);
+// console.log(arr[0]);
+for (const item of arr) {
+  console.log(item);
+}
+// recuerda que puedo eliminar un item al final del array con arr.pop() y al principio con arr.shift()
+// map, filter,reducer,concat,slice and splice are very common too
+// insert or remove from end is O(1) constant <- push y pop o simplemente usando el ultimo index,no tiene por que ser con push o pop
+// insert or remove from beginning is O(n) linear <- unshift y shift
+// accesing any position is O(1)
+// searching is O(n)
+// shift,unshift,concat,slice,splice - O(n) linear
+// forEach/map/filter/reduce - also O(n) linear
+
+Fijate que usar un forEach y dentro un map dispara la time complexity a cuadratic O(n^2) y en una entrevista puede que no quieran eso
+
+VIDEO 03 OBJECT DATA STRUCTURE
+
+An object is an unordered collection ok key-value pairs.The key must either ve a sring or symbol data type where as the value can be of any data type.
+To retrieve a value,you can use the correspoding key.This can be achieved using the dot notation or bracket notation.
+An object is not iterable(not for of as when using arrays)
+TIP:recuerda que al usar la bracket notation tengo que pasar un string:
+const obj = {
+  name: 'Peter',
+  age: 20
+}
+console.log(obj[age]) <- dará error,tengo que usar obj['age']
+
+Puedo añadir key-value pairs usando la notación del punto:
+obj.hobby = "football";
+Puedo remover una propiedad con el operador delete:
+delete obj.age;
+
+Perfectamente se pueden agregar funciones como values:
+const obj = {
+  name: 'Peter',
+  age: 23,
+  sayMyName: function(){ console.log(this.name)}
+}
+
+ En Javascript se usan mucho estos tres métodos estáticos: Object.keys(obj) | Object.values(obj) | Object.entries(obj) para acceder a las keys,los values,o ambos.Estas funciones siempre devuelven un arreglo.
+
+ Time complexity:
+ Insert O(1) constant
+ Remove O(1) constant
+ Accesss O(1) constant
+ * Fijate que insertar,remover o acceder se hace mediante la key y por ello es constante(1 operación a memoria ??)
+
+ Search O(n) <- sin embargo buscar es linear
+ Object.keys() es O(n) pues tiene que iterar por todos los pares
+ Object.values() es O(n) <- lo mismo
+ Object.entries() es O(n) <- lo mismo
+
+      VIDEO 04 SET DATA STRUCTURE
+
+Esta estructura fue introducida en Javascript en el ECMA2015.
+A set is a data structure that can hold a collection of values.The values however must be unique.
+Set can contain a mix of different data types.You can store strings,booleans,numbers or even objects all in the same set.
+Sets are dynamically sized.You don't have to declare the size of a set before creating it(same as arrays)
+Sets do not maintain an insertion order.
+Sets are iterable.They can be iterated through a for of loop(rp will work as well)
+
+Set vs Arrays:
+Arrays can contain duplicate values whereas Sets cannot
+Insertion order is maintained in arrays but it is not the case with Sets
+Searching and deleting an element in the set is faster compared to arrays(porque??)
+
+// para crear un set tengo la clase Set(iterable) que permite crear un Set desde un iterable
+const set = new Set([1,2,3])
+// para añadir a un Set tengo el método set.add()
+set.add(4)
+// un Set va a ignorar valores duplicados
+set.add(4)
+// puedo comprobar si un Set tiene un determinado valor con Set.has(value) <- dado que iterará será O(n)
+set.has(2)
+set.forEach(i => console.log(i))
+
+// para borrar tengo el método delete
+set.delete(3)
+// para contar el numero de elementos tengo la propiedad size,igual que length para arrays.Es una propiedad
+console.log(set.size)
+// para vaciar un Set tengo el método clear:
+set.clear()
+console.log(set.size)
+
+VIDEO 05 MAP DATA STRUCTURE
+
+A Map is an ordered collection of key-value pairs.Both keys and values can be of any data type
+To retrieve a value,you can use the corresponding key.
+Finally,Maps are iterable.They can be used with a for of loop,among others.
+* Fijate que hasta ahora el único no iterable es un objeto.
+
+Object vs Map(dado que son muy parecidos veamos las diferencias entre ellos):
+  1- Objects are unordered whereas maps are ordered
+  2- Keys in objects can only be string or symbol type whereas in maps,they can be of any type
+  3- An object has a prototype an may contain a few default keys wich may collide with your own keys if you're not careful.A map on the other hand does not contain any keys by default.
+  4- Objects are not iterable whereas Maps are iterable
+  5- The number of items in an object must be determined manually(tengo que contar las keys) mientras que en un Map tengo la propiedad size(as well as in a Set)
+  6- Puedo atar funcionalidad a un Objeto(function as values) mientras que en un Map solo puedo almacenar data
+
+const map = new Map([ ['pais':'España'] , ['edad':25] , ['nombre':'Asinto'] ])
+for(const [k,v] of map){
+  console.log(`${k}: ${v}`);
+}
+
+// para añadir un nuevo valor tengo el metodo map.set(k,v) que obviamente pide dos argumentos(la clave la pide como string)
+map.set('d',4);
+// si quiero comproba si una KEY existe tengo el método has:
+console.log(map.has('b'))
+// si quiero borrar un par de clave valor tengo el método delete(key) que borrará la pareja mediante la key
+map.delete('a')
+// de nuevo puedo ver su numero de elementos con la propiedad size
+console.log(map.size)
+// de nuevo puedo vaciar el Map con el método clear()
+map.clear()
+
+VIDEO 06-07 STACK DATA STRUCTURE
+
+The stack data structure is a sequential collection of elements that follows the principle of Last In First Out (LIFO)
+The last element inserted into the stacks is the first element to be removed
+A stack of plates is a common analogy.
+A Stack is a simple List,but it is defined by its behavior(favor-behavior)
+The Stack data structure supports two main operations:
+  - Push, which adds an element to the collection
+  - Pop,  which removes the most recently added element
+That is,there are only operations in the last index
+
+Usage(helpful situations):
+ - Helps when you have to trace back your steps(browser history go back/go forward or REDO/ UNDO)
+ - The most important: the call stack used in Javascript runtime 
+
+Implementación:
+class Stack {
+  constructor() {
+    this.items = [];
+  }
+  // given that we have to push an element push method has to accept that element has parameter
+  push(element) {
+    this.items.push(element);
+  }
+
+  pop() {
+    return this.items.pop();
+  }
+  // return the last element without removing it
+  peek() {
+    return this.items[this.items.length - 1];
+  }
+
+  isEmpty() {
+    return this.items.length === 0;
+  }
+  size() {
+    return this.items.length;
+  }
+  print() {
+    console.log(this.items.toString());
+  }
+}
+
+const stack = new Stack();
+console.log(stack.isEmpty());
+stack.push(20);
+stack.push(10);
+stack.push(30);
+console.log(stack.size());
+console.log(stack.print());
+console.log(stack.pop());
+console.log(stack.peek());
+
+Fijate que es un Array con restricciones.Dado que sus operaciones son sobre el último indice son O(1) constante.
+
+    VIDEO 08-09 QUEUE DATA STRUCTURE
+
+The Queue data structure is a sequential collection of elements that follows the principle of First In First Out(FIFO)
+A common analogy is a group of people waiting in line.
+The first element inserted into the queue is first element to be removed(array.push)
+
+Again,a Queue is defined by its behavior and is a simple array with restrictions.It has two simple operations,enqueue and dequeue(meter/sacar de la cola)
+  - Enqueue, which adds an element to the tail of the collection(unshift)
+  - Dequeue, which removes at the first index(push)
+
+Usefulness: typically a Queue is useful for chain of tasks:
+ - Printers
+ - CPU task scheduling 
+ - Callback queue that is used in Javascript runtime
+
+ Implementation:
+ class Queue {
+  constructor() {
+    this.items = [];
+  }
+  // recuerda que una Queue inserta al final,pero remueve al principio
+  enqueue(element) {
+    this.items.push(element);
+  }
+  // recuerda que una Queue inserta al final,pero remueve al principio
+  dequeue() {
+    return this.items.shift();
+  }
+  isEmpty() {
+    return this.items.length === 0;
+  }
+  // esta vez peek va a devolver el primero,ojo
+  peek() {
+    return this.isEmpty() ? null : this.items[0];
+  }
+  size() {
+    return this.items.length;
+  }
+  print() {
+    console.log(this.items.toString());
+  }
+}
+
+const queue = new Queue();
+console.log(queue.isEmpty());
+queue.enqueue(10);
+queue.enqueue(20);
+queue.enqueue(30);
+console.log(queue.size());
+queue.print();
+console.log(queue.dequeue());
+console.log(queue.peek());
+
+Fijate que dequeue al llamar a shift tiene coste O(n) linear.En el siguiente video veremos como implementar una COLA tipo FIFO con un objeto y con costes O(1) 
+
+      VIDEO 10 QUEUE IMPLEMENTATION OPTIMISED
+
+      
