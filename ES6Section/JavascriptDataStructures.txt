@@ -269,4 +269,66 @@ Fijate que dequeue al llamar a shift tiene coste O(n) linear.En el siguiente vid
 
       VIDEO 10 QUEUE IMPLEMENTATION OPTIMISED
 
-      
+En este video implementaremos una Queue usando un Object asegurandonos asi que no usamos Array.shift() por su time complexity.La clave va a estar en usar un Object y dos punteros:
+class Queue {
+  constructor() {
+    this.items = {};
+      // necesitamos dos punteros más,apuntando al final y al principio
+    this.rear = 0;
+    this.front = 0;
+  }
+  // encolar al final
+  enqueue(element){
+   this.items[this.rear] = element 
+   this.rear++;
+  }
+// desencolar al principio(shift).Fijate que vamos a devolver el item.Aqui está la clave de la performance,ya que accedemos directamente,sin iterar
+  dequeue(){
+    const item = this.items[this.front]; 
+    if(!item) return;
+    delete this.items[this.front]
+    this.front++;
+    return item;
+  }
+  isEmpty(){
+    // si los punteros apuntan a la misma posición esta vacio
+    return this.rear - this.front === 0
+  }
+  
+  peek(){
+     return this.items[this.front] ;
+  }
+
+  size(){
+    return this.rear - this.front;
+  }
+  print(){
+    console.log(this.items)
+  }
+}
+
+const queue = new Queue();
+console.log(queue.isEmpty())
+queue.enqueue(10)
+queue.enqueue(20)
+queue.enqueue(30)
+console.log(queue.size())
+queue.print()
+console.log(queue.dequeue())
+console.log(queue.peek())  
+
+      VIDEO 11-12 CIRCULAR QUEUE
+
+The circular queue is an extension of the standard version.The size of the queue is fixed and a single block of memory is used as if the first element is connected to the last element
+It is also referred to as circular buffer or ring buffer and follows the FIFO principle.
+A circular queue will reuse the empty block created during the dequeue operation
+Por todo esto,si tengo que trabajar con queues y sé su longitud máxima,usar una circular queue como implementación suele ser una buena idea
+The circular Queue data structure supports two main operations:
+  1- Enqueue: which adds elements to the rear/tail of the collection
+  2- Dequeue: which removes an element from the front/head of the collection 
+
+NOTA,si la collection esta llena no puedo encolar más(gráficamentes es una grafica circular,con X particiones)
+Usage:
+  1- Clock
+  2- Streaming data
+  3- Computed control traffic lights
