@@ -332,3 +332,153 @@ Usage:
   1- Clock
   2- Streaming data
   3- Computed control traffic lights
+
+Implementación(fijate en el uso de 4 punteros):
+class CircularQueue {
+  constructor(capacity) {
+    //  remember that the circular queue has a fixed capacity
+    this.items = new Array(capacity);
+    // we need the size stored in a variable for modularizing operations(this.front + 1) % this.capacity
+    this.capacity = capacity;
+    // we need the currentLength in all moment
+    this.currentLength = 0;
+    // también vamos a tener dos punteros que de momento apuntan afuera de la structure
+    this.rear = -1;
+    this.front = -1;
+  }
+  // si el currentLength es igual obviously is full
+  isFull() {
+    return this.currentLength === this.capacity;
+  }
+  // it will be empty if currentLength is zero
+  isEmpty() {
+    return this.currentLength === 0;
+  }
+  // si no está lleno recuerda que una Queue inserta al final luego incrementamos this.rear y asignamos con su nuevo indice.Movemos los punteros restantes
+  enqueue(element) {
+    if (!this.isFull()) {
+      // si rear es 6 será 2(tiene que dar una vuelta)
+      this.rear = (this.rear + 1) % this.capacity;
+      this.items[this.rear] = element;
+      this.currentLength++;
+      // si front apuntaba a -1 lo movemos al mismo indice que apunte el rear(fijate que se quedará en el indice 0)
+      if (this.front === -1) {
+        this.front = this.rear;
+      }
+    }
+  }
+  // si la cola no está vacia reasignamos a null en el front y movemos punteros
+  dequeue() {
+    if (!this.isEmpty()) {
+      const item = this.items[this.front];
+      // dado que no queremos disminuir el array asignamos un null a this.front
+      this.items[this.front] = null;
+      // movemos el puntero del front
+      this.front = (this.front + 1) % this.capacity;
+      this.currentLength--;
+      // si quedará vacia la cola(solo habia un elemento) sacamos los punteros afuera
+      if (this.isEmpty()) {
+        this.front = -1;
+        this.rear = -1;
+      }
+      return item;
+    }
+  }
+
+  peek() {
+    if (!this.isEmpty()) {
+      return this.items[this.front];
+    }
+    return null;
+  }
+
+  print() {
+    if (this.isEmpty()) {
+      console.log("Queue is empty");
+    } else {
+      let i;
+      let str = "";
+      // fijate que para iterar la circular queue podria estar en cualquier estado
+      for (i = this.front; i !== this.rear; i = (i + 1) % this.capacity) {
+        str += this.items[i] + " ";
+      }
+      str += this.items[i];
+      console.log(str);
+    }
+  }
+}
+
+VIDEO 13-14 LINKED LIST
+
+A linked list is a linear data structure that includes a series of connected nodes
+Each node consists of a data value and a pointer that points to the next node
+As an advantage the elements in a linked list can be easily inserted or removed withour reallocation of the entire stucture(recuerda que no usan posiciones contigüas de memoria)
+As an disadvantage,the random access of elements is not feasible and accesing an element has linear time complexity(given that you have to start from the first node)
+A Linked List data structure supports three main operations:
+  1- Insertion: to add an element at the beggining,end or at a given index
+  2- deletion: to remove an item given its index or value
+  3- Search: to find an element given its value
+NOTA: the very last node points to null
+
+USAGE: all applications of stacks and queues are applications of linked lists
+An Image Viewer(cada imagen apunta a la siguiente o anterior)
+NOTA: se usa masivamente asi que es una pregunta muy usada en entrevistas
+
+Implementación(fijate que por primera vez vamos a usar dos clases y que una LinkedList siempre debe saberse el punto de entrada)
+
+class Node {
+  constructor(value){
+    this.value = value
+    // aparte del value necesitamos el puntero al siguiente nodo que en principio apunta a null
+    this.next = null
+  }
+}
+
+// en una LinkedList siempre va a haber un puntero hacia el primer elemento(de otra forma no sabriamos entrar a la colección,sin saber quien es el primer Node)
+// ese puntero se le suele llamar head y obviamente hasta que no haya un Node apunta a null
+class LinkedList {
+  constructor(){
+    this.head = null //puntero del node de entrada
+    this.size = 0   // llevaremos un registro del size
+  }
+
+  isEmpty(){
+    return this.size === 0;
+  }
+
+  getSize(){
+    return this.size;
+  }
+
+}
+
+TIP: memorize that 'the last' and 'the very last' both have the same meaning,but the very last has lot of enphasis in 'last',even having a little of negative context about the situation:
+> for the very last time,don't do that <- it is the last time,it is important to me that it is the last time I will warn you
+> I saw her last time on Wednesday, I think <- it is not really important that it was the last time I saw her
+
+Same with any other word(for the very first time(remarco que es la primera vez), for own very safety(es importante remarcar que es por nuestra seguridad,etc,asinto))
+
+      VIDEO 15 PREPEND A NODE(at the very beginning <- begin is consonant + vowel + consonant)
+
+prepend(value){
+  const node = new Node(value); <- creamos el Node lo primero
+  if(!this.isEmpty()) this.next = this.head; <- si agregamos al principio sobre una list con elementos el next del nuevo node apuntará al viejo head
+  this.head = node <- el head apuntará al very node itself,pues es una prepend opt
+  this.size++; <- aumentamos el size
+}
+
+      VIDEO 16 PRINT THE LINKED LIST
+
+print(){
+  if(this.isEmpty()){
+    console.log('The list is empty')
+  } else{
+    let curr = this.head;
+    let listValues = '';
+    while(curr){
+      listValues += `${curr.value}`
+      curr = curr.next
+    }
+    console.log(listValues)
+  }
+}
