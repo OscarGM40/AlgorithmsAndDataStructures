@@ -125,6 +125,27 @@ console.log(set.size)
 set.clear()
 console.log(set.size)
 
+        EXTRA MAKE CODE FASTER USING SETS IN JAVASCRIPT
+
+Source: https://bretcameron.medium.com/how-to-make-your-code-faster-using-javascript-sets-b432457a4a77
+
+Lo primero de todo es entender que los arrays son colecciones indexadas.Es decir que el valor de los datos en un array está ordenado por un indice(de ahi que acceder a arr[3] sea O(1) constante,asinto).Por otro lado,los Sets son colecciones basadas en keys(keyed collections).En vez de usar indices,usan una key.Un Set es iterable(siempre en el orden de inserción que tuvo) y no puede contener datos duplicados.
+De forma directa un Set tiene varias ventajas sobre un arreglo:
+1- buscar(usando indexOf or includes) en un array es más lento
+2- borrar es más lento(ya que tiene que mover los indices)
+3- Insertar: de nuevo es más rapido añadir a un Set que a un array(discutible)
+4- Storing NaN: en un Set se puede guardar este valor
+5- Remover duplicados:en un Set ya se da esto de forma natural(siempre que sea lo que queremos)
+
+Mientras que los métodos para buscar en un array son O(n) linear las operaciones de buscar,borrar e insertar todas tienen complejidad O(1) (ya que insertamos al finaly borramos o buscamos por key).Fijate que daría igual el tamaño de la colección a la hora de buscar o borrar(diferente al array).
+NOTA:fijate que set.has() tiene complejidad constante tmb(a diferencia de lo que pensaba antes)
+Pasar de Array a Set= new Set([1,2,3,4])
+Pasar de Set a Array= [...new Set([1,2,3,4])]
+
+[4,1,3,5] 9
+const findSum = (arr,sum) => arr.some((set => n => set.has(n) || !set.add(sum -n) )(new Set));
+const findSum = (arr,sum) => arr.some( (set => (n) => set.has(n) || !set.add(sum -n) )(new Set));
+
 VIDEO 05 MAP DATA STRUCTURE
 
 A Map is an ordered collection of key-value pairs.Both keys and values can be of any data type
@@ -482,3 +503,156 @@ print(){
     console.log(listValues)
   }
 }
+
+    VIDEO 17 APPEND TO A NODE
+
+We will append a new node to the list.The node will contain a value and a pointer to the nex Node(to null).Fijate que tengo que contemplar el caso de que el append sea sobre una LL vacia y si no lo fuera tengo que mover el último puntero que apunta a null y debe apuntar a este current node:
+
+append(value) {
+  const node = new Node(value);
+  if(this.isEmpty()){
+    this.head=node
+  } else {
+    let prev = this.head; <- fijate que no puedo mover el puntero y que solo puedo entrar por aqui a la linked list
+    while(prev.next){
+      prev=prev.next
+    }
+    prev.next=node; <- cuando llegue aqui estamos en el penultimo,que era el único null,cambiamos ese head para que apunte al actual
+  } 
+  this.size++;
+}
+Fijate que preprend es 0(1) pero append es O(n) por el bucle while.Un segundo puntero apuntando al last cambiaría esta performance a O(1)
+
+NOTA: array.of() crea una nueva instancia de Array con un numero variable de elementos pasados por argumento:
+Array.of(1,2,3)
+* por otro lado, Array.from() crea una nueva instancia de Array a partir de un objeto iterable.Fijate que puede recibir un segundo argumento a aplicar al objeto iterable antes de crear el array.Este método parece bastante útil por ello
+Array.from([1,2,3], x => x*2) <- creará [2,4,6] 
+Array.from('foo') <-creará ['f','o','o']
+
+VIDEO 18 INSERT IN A LINKED LIST
+
+Esta vez vamos a insertar en una posicion dada.Fijate que insertar va a cambiar el puntero del inmediatamente anterior a la posición ya que su head apuntará al nuevo y el head del nuevo al que estaba en esa posición:
+
+insert(value,index){
+  if(index < 0 || index > this.size) return;
+  if(index === 0) this.prepend(value);
+  else{
+    const node = new Node(value);
+
+    let prev = this.head; <- guardo el puntero al head
+    
+    for(let i = 1; i < index;i++){
+      prev=prev.next
+    }
+    node.next=prev.next; <- el next actual apuntará al anterior
+    prev.next=node; <- y el del inmediato anterior al actual
+    this.size++;
+  }
+}
+
+        VIDEO 19 REMOVE AT CERTAIN INDEX
+
+Given that we can remove at any index let's implement this method,taking into account/keeping in mind that the index can be out of bounds firstly:
+
+  removeFrom(index) {
+    if (index < 0 || index >= this.size) return console.log("index out of bounds");
+
+    if (this.size === 1) {
+      this.size--;
+      return (this.head = null);
+    }
+    
+    let prev = this.head;
+    for (let i = 0; i < index - 1; i++) {
+      prev = prev.next;
+    }
+    prev.value = prev.next.value;
+    prev.next = prev.next.next;
+    this.size--;
+  }
+
+Next case we will take into consideration that we can remove at index 0 when LinkedList having only one element,because of that the head has to re-point to null
+Finally we can remove at any index,having to move the pointer of the previous element to point to the element moved to the hole we left when removing.For that purpose we need a pointer,etc
+
+      VIDEO 20 REMOVE BY VALUE
+
+The method will remove the first node which contains the given value by arguments.It will return the value if node is found or null when not finding it.Again we will have 3 scenarios, an empty LinkedList:
+  removeValue(value) {
+    if (this.isEmpty()) {
+      return console.log("Linked List is empty.Nothing to remove");
+    }
+    // fijate que this.head es un object {value:any,next:any}
+    // si solo hubiera un elemento tenemos this.head.value apuntando al value y this.head.next apuntando a null
+    // si el puntero.value es igual sin haberlo movido solo puede ser en el primer indice
+    if (this.head.value === value) {
+      this.head = this.head.next;
+      this.size--;
+      return console.log(value);
+    }else {
+      // si no hay que ir moviendo el puntero,de nuevo asignamos una variable al puntero
+      let prev = this.head;
+      // mientras el puntero tenga un next y sea diferente del value avanzamos el puntero
+      while(prev.next && prev.next.value !== value) {
+        prev = prev.next;
+      }
+      // si sale del bucle o bien tenemos en prev.next todo el nodo o no lo ha encontrado.Si existe ese prev.next es que lo encontró.Si lo encontró: 
+      if(prev.next){
+        // el nodo a remover lo tenemos en el puntero.next
+        const removedNode = prev.next
+        // el puntero de éste nodo ahora debe apuntar al que apuntaba el removed.next
+        prev.next = removedNode.next;
+        // desde luego está todo bien claro, xd
+        this.size--;
+        return console.log(value)
+      }
+      return null;
+    }
+  }
+  Esta vez ha sido un poco complejo,pero el approach que tomó me gusta mucho
+  Removing a Node has linear time complexity as the node to be removed can be the last of the list
+
+        VIDEO 21 LINKED LIST SEARCH
+
+Let's implement how to find a Node given its value.It must return the index of the first ocurrence or -1 if it is not found
+Si bien se puede usar la misma aproximación que antes se puede simplificar un poco:
+  searchByAuthor(value) {
+    if (this.isEmpty()) return -1;
+    let i = 0;
+    let curr = this.head;
+    while (curr) {
+      if (curr.value === value) {
+        return i;
+      }
+      curr = curr.next;
+      i++;
+    }
+    return -1;
+  }
+Muy pro el señor este
+
+VIDEO 22 REVERSE LINKED LIST
+
+Reversing a Linked List is a common interview question so let's tacke this.Fijate que esta reversión parece compleja de sacar sin ayuda.Necesitaré dos punteros,uno apuntando al nodo previo(luego al principio apunta a null) y otro nodo temporal apuntando al nodo siguiente(current.next).Además hay que realizar 4 movimientos(más uno final) por cada iteración.
+Fijate en la slide que queda muy claro que invertimos el nodo en el eje Y,nada de arrays:
+
+reverse(){
+  let prev = null;
+  let curr = this.head;
+  // we need to perform 4 steps(+one last additional)
+  while(curr){
+    1 -crear el puntero temporal al next(si estoy en el uno me guardo a donde apunta el next de uno,por ejemplo sería el 2)
+    let temp = curr.next; // puntero temporal
+    2- hacer que el curr.next apunte al prev(cambio de horizontalidad)
+    curr.next = prev
+    3- actualizar prev a curr(diria que es reasignar todo el Nodo)
+    prev = curr
+    4- avanzar el puntero(lo tengo en el puntero del paso 1 el next)
+    curr = temp;
+  }
+  queda cambiar el head,que sigue en la posicion 0
+  this.head = prev
+}
+
+      VIDEO 22 LINKED LIST WITH POINTERS TO HEAD AND TAIL
+
+Ya hemos visto una Linked List con un puntero al Head,veamos ahora
