@@ -653,6 +653,89 @@ reverse(){
   this.head = prev
 }
 
-      VIDEO 22 LINKED LIST WITH POINTERS TO HEAD AND TAIL
+    VIDEO 22 LINKED LIST WITH POINTERS TO HEAD AND TAIL OVERVIEW
 
-Ya hemos visto una Linked List con un puntero al Head,veamos ahora
+Video:https://www.youtube.com/watch?v=sw7fCZeFTdc&list=PLC3y8-rFHvwg6nsAOfC5Is18KB2DrVOJy&index=23&ab_channel=Codevolution 
+
+We have already seen how to implement a Linked List with one pointer to the head,inwhere preprend operations had constant time complexity whereas appending in the last position had linear complexity(O(n)).This is because we have to traverse all the list.
+By adding an additional pointer to the tail we can reduce this time complexity to constant as well
+
+Differences: when using two pointers adding an element at index 0 will move both pointers(head and tail) to the first position(I assume that both will point to null)
+Prepending at element will only move the head pointer(I have 10 20 30 and I preprend before 10 so the head that was in 10 it has to move to 5 as well as the pointer to next of the prepended element).Note that tail pointer remains in the same position
+
+However,appending has some differences since we will have to move the tail pointer if it is done at last position(tengo 10 20 30 y el tail apuntando a 30 y añado 40 luego el tail se mueve a 40 y el 30.next apunta al tail).The other casuistic is appending to an empty list,so same as preprending.Obviously it will be O(1) now
+
+Deleting a node at the end is practically the same,having to reallocate the tail pointer.Sin embargo hay que recorrer la lista(no así con deleting from the start que es O(1) )
+Cualquier otra operación(insertat entre medias,revertir la list,buscar) es exactamente igual y tendrá coste linear
+
+        VIDEO 23 IMPLEMENTING OPTS
+
+Esta vez vamos a ir más rápido,prepend solo cambia que hay que mover ambos punteros y no sólo uno si es una lista vacia:
+
+  prepend(value) {
+    const node = new Node(value);
+    // if it is empty we reassign both pointers,else we move one position backwards(reassigning this.head and node.next,but not in this order)
+    if (this.isEmpty()) {
+      this.head = node;
+      this.tail = node;
+    } else {
+      node.next = this.head;
+      this.head = node;
+    }
+    this.size++;
+  }
+
+Appending es mucho más fácil,ya que ahora tenemos un puntero y no hay que iterar la lista,solamente reasignar ese puntero:
+
+  append(value) {
+    const node = new Node(value);
+    if(this.isEmpty()){
+      this.head = node;
+      this.tail = node;
+    }else{
+      // hay que mover el tail.next antes que el tail ??
+      this.tail.next=node;
+      this.tail=node
+    }
+    this.size++;
+  }
+
+Removing from front is quite easy:
+
+removeFromFront(){
+   if (this.isEmpty()) {
+      return console.log("the list is already empty");
+    }
+    const value = this.head.value;
+    this.head=this.head.next
+    this.size--;
+     return console.log(`${value} removed from front`)
+
+}
+Whereas removing from tail is a little more complicated:
+removeFromEnd(){
+   if (this.isEmpty()) {
+      return console.log("the list is already empty");
+    }
+    const value = this.tail.value;
+    if(this.size === 1){
+      this.head = null;
+      this.tail = null;
+    }else{
+      let prev = this.head; <- hay que ir hasta el penúltimo
+      while(prev.next !== this.tail){
+        prev = prev.next
+      }
+      prev.next=null
+      this.tail = prev;
+    }
+    this.size--;
+     return console.log(`${value} removed from front`);
+}
+
+Recuerda que append,prepend y removeFromFront tienen complejidad constante mientras que removeFromTail tiene complejidad linear(por el bucle while).Por esto tanto las stacks como las queues pueden ser implementadas usando LinkedList,lo cual es lo siguiente que veremos
+
+VIDEO IMPLEMENTING A STACK LIST AS A LINKED LIST
+
+
+
