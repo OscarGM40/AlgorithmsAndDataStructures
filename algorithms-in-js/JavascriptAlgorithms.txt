@@ -14,37 +14,35 @@ Este curso es la parte uno.La segunda parte es sobre estructuras de datos.Veremo
 
 				VIDEO 02 WHAT IS AN ALGORITHM?
 
-An algorithm is a set of well-defined instructions to solve a particular problem.(noodles=fideos,boil=hervir,lid=tapa).
+An algorithm is a set of well-defined instructions to solve a particular problem.(noodles=fideos,boil=hervir,lid=tapa).It is like a recipe, in where I have to follow some intructions and I will get a dish.
 An algorithm have: inputs,the algorithm  itself and the output
 For example,an algorithm to add two numbers:
 inputs(numbers a and b)
 algorithm: the function ,the inside of it(in which we calculate that sum) and also the return
-output: the sum of 'a' and 'b' 
+output: the sum of 'a' and 'b' (so it is the value of the return)
 
 Characteristics: an algorithm should have:
 1- Well defined inputs and outputs:
 2- Each step should be clear an unambiguous
 3- Should be language independent
 
-As a developer,I am going to come across(to come across=encontrar) problems that I need to solve.Learning algorithms translates to learning different techniques to efficiently solve those problems
+As a developer,I am going to come across(to come across=encontrar) problems that I need to solve.Learning algorithms translates to learning different techniques to efficiently solve those problems.
 One problem can be solved in many ways using different algorithms.
-Every algorithm comes with its own tradeoffs when it comes to performance
-
-Todo esto deja entrever claramente que hay que poder medir estos algoritmos,para saber cual me conviene más.
+Every algorithm comes with its own tradeoffs when it comes to performance.
 
 			VIDEO 03 TIME AND SPACE COMPLEXITY
 
 Given that there are multiple algorithms to sort a list of numbers,how do we analyse which one is the most efficient algorithm?.Generally,when we talk about performance,we use an absolute measure.
-The absolute running time of an algorithm cannot be predicted,since it depends on a number of factors(the programming language,the computer the program runs on,other programs running at the same time,the quality of the operating system,...) 
+However, the absolute running time of an algorithm cannot be predicted,since it depends on a number of factors(the programming language,the computer the program runs on,other programs running at the same time,the quality of the operating system,...) 
 
 Es por esto que evaluamos el rendimiento de un algoritmo in terms of its input size:
 TIME COMPLEXITY: amount of time taken by an algorithm to run,as a function of input size  
 SPACE COMPLEXITY: amount of memory taken by an algorithm to run, as a function of input size
 
-By evaluating against the input size, the analysis is not only machine independent but the comparison is also more appropiate
-There is no one solution that works every single time.I should try to know multiple ways to solve the problem and use the best solution,given my constraints
+By evaluating against the input size, the analysis is not only machine independent but the comparison is also more appropiate.
+There is no one solution that works every single time. I should try to know multiple ways to solve the problem and use the best solution,given my constraints
 
-If my app has plenty of memory to work with, I don't have to worry about space complexity(but yes about time complexity,I suppose)
+If my app has plenty of memory to work with, I don't have to worry about space complexity(but yes about time complexity, I suppose)
 If my app has little memory to work with,I should pick a solution that is relatively slower but needs less space
 
 HOW TO REPRESENT COMPLEXITY: obviamente lo siguiente es ver como se puede representar esta complejidad en tiempo y espacio.Lo hacemos usando notación asintótica:
@@ -54,7 +52,7 @@ There are mainly three asymptotic notations:
 2. Omega Notation (Ω-notation) -> Best case complexity
 3. Theta Notation (Θ-notation) -> Average case complexity
 
-Nos centraremos en el peor caso de uso,la notación big O
+Nos centraremos en el peor caso de uso,la notación big O.
 
 			VIDEO 04 BIG O NOTATION
 
@@ -72,57 +70,68 @@ function summation(n){
 }
  Dado que no podemos saber el tiempo exacto lo unico que podemos hacer es contar el numero de sentencias que se van a ejecutar:
 Se ejecutará el let sum = 0 una vez
-Se ejecutará el sum +=i 4 veces
+Se ejecutará el sum +=i 4 veces (imaginando que llamamos a summation(4))
 Se ejecutará el return una vez
 * Podriamos decir pues que se ejecutará n + 2 veces(siendo n el input).  
 Sin embargo hemos dicho que la big O no se centra en los detalles.Si bien con un input de 4 decir que en 4 + 2 el 2 es insignificante es decir mucho,si que lo es con un input de 100.000.000(da igual cien millones cien millones + 2).Luego el contador sería 'n' y no 'n + 2'.
 
-Asi que tendriamos O(n) <- Linear  como time complexity.Es decir que cuando el input incremente también lo hara el time de forma linear.
-Ya desde este momento cada vez que vea un bucle en mi código puedo aseverar,casi sin fallo, que la complejidad será al menos lineal O(n) 
+Asi que tendriamos O(n) <- linear time complexity. Esto es asi porque cuando el input incremente también lo hara el time de forma linear, si incrementa x en x el time lo hará en la misma relación.
 
-Veamos otro algoritmo como solución del mismo problema:
+
+Veamos este algoritmo:
 function summation(n){
   return (n * (n+1) )/2; 
-El time complexity para este algoritmo es O(1). Al coste O(1) se le llama complejidad constante.Solo se ejecutará una vez la linea(de ahi el O(1) ).
+El time complexity para este algoritmo es O(1). Al coste O(1) se le llama complejidad constante (siempre temporal ,complejidad temporal constante). Solo se ejecutará una vez la linea(de ahi el O(1) ).
 
-Si hubiera dos ciclos anidados la complejidad sería O(n2) <- n al cuadrado. Se le llama complejidad cuadrática 
+De manera similar, si tuvieramos un bucle anidado como este:
+for(i = 1; i <= n; i++){
+  for(j = 1; j <= i; j++){
+    return i + j;
+  }
+}
+En este bucle anidado la complejidad temporal sería cuadrática => 0(n2);Entiendo que n deberia ser la media de las dos longitudes de los ciclos.
 Si hubiera tres ciclos anidados sería O(n3)<- n al cubo.Se le llama complejidad cúbica
+Y si el input size se redujera a la mitad cada iteración sería O(logn) como time complexity (complejidad logaritmica)
 
 SPACE COMPLEXITY: la idea es similar.
 O(1) Constante Si el algoritmo no requiere memoria extra al crecer el input es constante: ejemplo,ordenar un array sin utilizar arrays adicionales
-O(n) linear Aqui el espacio extra crece cuando lo haga el input
+O(n) linear Aqui el espacio extra crece de manera linear, en la misma relación a como lo haga el input
 O(logn) Logaritmica el espacio extra crece pero no al mismo ratio que lo hace el input
 
-Puede verse perfectamente en la gráfica que O(n a la dos) o O(2 factorial de n),son horribles en rendimiento (la peor es O(n!) <- O factorial de n).O(1) constante y O(n) son las mejores y O(log n) está en el medio.Se recomienda no subir de O(log n)
-En este punto se recomienda repasar los videos 3 y 4.También se recomienda no escribir cógido complejo sólo por la performance,sino código fácil de leer y mantener
-Entender la big O para Arrays y Objetos será lo siguiente y es clave para determinar correctamente el coste de mis algoritmos.
+Puede verse perfectamente en la gráfica que la complejidad cuadratica O(n a la dos) o la factorial O(2 factorial de n),son horribles en rendimiento (la peor es O(n!) <- O factorial de n). O(1) constante y O(n) son las mejores y O(log n) está en el medio.Se recomienda no subir de O(log n)
+Fijate que la complejidad logaritmica es importante entenderla tmb y parece un buen approach.En resumen, constante linear y logaritmica son aceptables.
 
-				VIDEO 05 OBJECTS AND ARRAY BIG O 
-
+Entender la big O Notation (notación asintótica) para Arrays y Objetos será lo siguiente y es clave para determinar correctamente el coste de mis algoritmos.
 Remember: Big-O notation describes the complexity of an algorithm using algebraic terms.I has two important characteristics:
 1- It is expressed in terms of the input
 2- It focuses on the bigger picture rather than getting caught up in the minute details
 
-IMPORTANT: An object is a collection of key-value pairs.So both Object and arrays are collection of data.
-If I want to remove a key-pair the cost is:
+				VIDEO 05 OBJECTS AND ARRAY BIG O 
+
+IMPORTANT: An object is a collection of key-value pairs. Both objects and arrays are collection of data.
+
+See that if I want to remove a key-pair in an object the cost is:
 Insert -> O(1) <- constant 
+Access => 0(1) <- constant
 Remove -> O(1) <- constant 
-NOTA: esto es porque da igual cuantas propiedades tenga un objeto,necesitará el mismo tiempo para borrar o insertar una más.
-Accessing a value given a key -> O(1)
-NOTA: acceder a person.firstName es igual que acceder a person.age,por ejemplo 
-Search for a value(not through the key -> O(n) 
-Obviamente,n es el numero de propiedades y es el máximo(si es que justo es la última
 
-Métodos más comunes en objetos y su coste:
-Object.keys() => O(n) <- linear
-Object.values() => O(n) <- linear
-Object.entries() => O(n) <- linear
+Search <- O(n) <- linear, donde n es el numero de propiedades del object 
+Ojo, es Search for a value(not through the key -> O(n). Entiendo que entrar por property es el access
 
+Object.keys() es O(n)
+Object.values() es O(n)
+Object.entries() es O(n)
+Object.hasOwnProperty(),etc siempre iterará 1 vez por las keys luego linear time complexity.
 Todos ellos tienen complejidad linear(recuerda que devuelven arrays)
 
-ARRAYS: la diferencia con los objetos es que un array es una colección ORDENADA de valores (const odd = [1,3,5,7,9]).Empiezan en el indice 0 y éste va incrementando en uno.Veamos el coste de las operaciones más comunes:
+NOTA: esto es porque da igual cuantas propiedades tenga un objeto,necesitará el mismo tiempo para borrar o insertar una más ya que el intérprete entra por key directamente en una instruccion( luego time de O(1) o constante ).  
+Y lo mismo para acceder value given a key -> O(1) ya que es lo mismo acceder a person.firstName que acceder a person.age,por ejemplo 
+Ojo, no confundir con search for a value,que hay que iterar.
+
+ARRAYS: la diferencia con los objetos es que un array es una colección ordenada e indexada de valores (const odd = [1,3,5,7,9]).Empiezan en el indice 0 y éste va incrementando en uno.Veamos el coste de las operaciones más comunes:
+
 Insert/remove at end -> O(1) <- time complexity is constant
-Insert/remove at beginning -> O(n) <- time complexity is linear
+Insert/remove at beginning -> O(n) <- time complexity is linear because the programming language has to reassign all the indexes
 NOTA:esto es asi porque el indice tiene que ser reseteado/reestablecio por cada elemento restante,en resumen va a iterar por todo el array para cambiar los indices. 
 
 Accessing an element is constant time complexity -> O(1) 
@@ -130,17 +139,18 @@ Fijate que tomar un elemento en la posición 0 o en la 100 es el mismo tiempo(lu
 Searching for an element is linear time complexity O(n) ya que puede que haya que iterar por todo el arreglo 
 
 Métodos más comunes en arrays y su coste:
-Push/pop O(1) <- por ser el último
-Shift/unshift/concat/slice/splice <- todos O(n) porque van a iterar para restablecer el index
-forEach/map/filter/reduce <- todos O(n) esto es importante ya que usar anidamientos de estos métodos me da un time complexity cuadratic. 
+Push/pop O(1) <- de nuevo, ya que insertan o remueven al final es complejidad temporal constante(una operación)
+Shift / unshift / concat / slice / splice <- todos O(n) porque van a iterar para restablecer el index (shift y unshift operan sobre el primer elemento y necesitará restablecer el indice tmb, concat lo mismo, slice y splice tmb)
+forEach/map/filter/reduce <- todos O(n) esto es importante ya que usar anidamientos de estos métodos me da un time complexity cuadratic,cubic,etc. 
 
-NOTA: usar funciones encadenadas no da un complejidad temporal cuadratica si no que es O(n) + O(n):
-data.map(d => d.age).filter(age => age <= 18) <- esto no es cuadratica,son dos lineares
+IMPORTANTE: usar funciones encadenadas(functional programming) no da un complejidad temporal cuadratica si no que es O(n) + O(n):
+data.map(d => d.age).filter(age => age <= 18) <- esto no es cuadratica, son dos lineares.Importante esto, asinto
 
 			VIDEO 06 MATH ALGORITHMS
 
 Es hora de codear un poco.Veremos como solucionar algunos algoritmos básicos como la fibonacci sequence,factorial of a number,prime number and power of two.We will learn about recursion too.Despues implementaremos las mismas soluciones con recursion.
 I should approach this as next:
+
 1- problem statement
 2- pause the video and try solving the problem
 3- implemenent the solution together
